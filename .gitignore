@@ -4,6 +4,7 @@ src/Debug/
 src/Debug(x64)/
 src/Release/
 src/Release(x64)/
+src/unrar.h
 *.lib
 *.obj
 *.aps
