@@ -149,7 +149,7 @@ UnrarCheckArchive (const char *path, int mode)
   if(mode & CHECKARCHIVE_NOT_ASK_PASSWORD){
     rd.can_ask_password=false;
   }
-  rarSetCallback(rd.h,rar_event_handler,(ULONG)&rd);
+  rarSetCallback(rd.h,rar_event_handler,(LPARAM)&rd);
 
   int e, nfiles = 0;
   while (!(e = rd.read_header ())
@@ -293,7 +293,7 @@ UnrarOpenArchive (HWND hwnd, LPCSTR path, DWORD mode)
       return 0;
     }
 
-  rarSetCallback(info->m_hunrar,rar_openarc_handler,(ULONG)info);
+  rarSetCallback(info->m_hunrar,rar_openarc_handler,(LPARAM)info);
 
   return HARC (info);
 }
