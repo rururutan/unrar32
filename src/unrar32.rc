@@ -1,0 +1,498 @@
+//Microsoft Developer Studio generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// 日本語 resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
+LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
+#pragma code_page(932)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_REPLACE DIALOG DISCARDABLE  0, 0, 239, 155
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "既存のファイルを置き換えますか?"
+FONT 9, "MS UI Gothic"
+BEGIN
+    ICON            "",IDC_Q,7,7,20,20
+    LTEXT           "ファイル名:",IDC_STATIC,37,7,28,8
+    LTEXT           "",IDC_NAME,70,7,162,16,SS_NOPREFIX
+    LTEXT           "解凍先:",IDC_STATIC,37,29,23,8
+    LTEXT           "",IDC_PATH,70,29,162,16,SS_NOPREFIX
+    LTEXT           "既存のファイル:",IDC_STATIC,37,54,46,8
+    LTEXT           "サイズ:",IDC_STATIC,47,65,19,8
+    LTEXT           "",IDC_OLDSIZE,81,65,151,8,SS_NOPREFIX
+    LTEXT           "更新日時:",IDC_STATIC,47,76,30,8
+    LTEXT           "",IDC_OLDDATE,81,76,151,8,SS_NOPREFIX
+    LTEXT           "新しいファイル:",IDC_STATIC,37,89,44,8
+    LTEXT           "サイズ:",IDC_STATIC,47,100,19,8
+    LTEXT           "",IDC_NEWSIZE,81,100,151,8,SS_NOPREFIX
+    LTEXT           "更新日時:",IDC_STATIC,47,111,30,8
+    LTEXT           "",IDC_NEWDATE,81,111,151,8,SS_NOPREFIX
+    PUSHBUTTON      "はい(&Y)",IDYES,9,134,50,14
+    DEFPUSHBUTTON   "いいえ(&N)",IDNO,66,134,50,14
+    PUSHBUTTON      "すべて置換(&A)",IDC_ALL,123,134,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,180,134,50,14
+END
+
+IDD_INPROG DIALOG DISCARDABLE  0, 0, 187, 100
+STYLE DS_MODALFRAME | WS_POPUP
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "ファイル名:",IDC_STATIC,7,7,28,8
+    LTEXT           "",IDC_NAME,39,7,141,15,SS_NOPREFIX
+    LTEXT           "解凍先:",IDC_STATIC,7,25,23,8
+    LTEXT           "",IDC_DSTPATH,39,25,141,15,SS_NOPREFIX
+    LTEXT           "サイズ:",IDC_STATIC,7,43,19,8
+    LTEXT           "",IDC_FILESIZE,39,43,141,8,SS_NOPREFIX
+    LTEXT           "999%",IDC_PERCENT,7,62,15,8
+    CONTROL         "Progress1",IDC_PROG,"msctls_progress32",WS_BORDER,26,59,
+                    154,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,66,79,50,14
+END
+
+IDD_ASKPASSWD DIALOG DISCARDABLE  0, 0, 177, 73
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "書庫は暗号化されています"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "パスワード(&P):",IDC_STATIC,7,25,38,8
+    EDITTEXT        IDC_PASSWD,52,22,118,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,30,52,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,96,52,50,14
+END
+
+IDD_CHANGEVOL DIALOG DISCARDABLE  0, 0, 223, 61
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "ボリュームの交換"
+FONT 9, "MS UI Gothic"
+BEGIN
+    LTEXT           "ファイル名(&F):",IDC_STATIC,7,16,37,8
+    EDITTEXT        IDC_PATH,52,13,149,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_REF,204,13,12,14
+    DEFPUSHBUTTON   "OK",IDOK,53,40,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,119,40,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_REPLACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 148
+    END
+
+    IDD_INPROG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 93
+    END
+
+    IDD_ASKPASSWD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 170
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 66
+    END
+
+    IDD_CHANGEVOL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 216
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE DISCARDABLE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,12,0
+ PRODUCTVERSION 0,0,12,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "041104b0"
+        BEGIN
+            VALUE "Comments", "Common Archiver Project's UNRAR32.DLL\0"
+            VALUE "CompanyName", "Free software\0"
+            VALUE "FileDescription", "UNRAR32\0"
+            VALUE "FileVersion", "0, 0, 12, 0\0"
+            VALUE "InternalName", "unrar32\0"
+            VALUE "LegalCopyright", "Copyright (C) 1998-2004 T. Kamei\0"
+            VALUE "LegalTrademarks", "Common Archiver Project\0"
+            VALUE "OriginalFilename", "unrar32.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "UNRAR32 Dynamic Link Library\0"
+            VALUE "ProductVersion", "0, 0, 12, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x411, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_NOT_ENOUGH_MEMORY   "メモリが不足しています"
+    IDS_ARCHIVE_HEADER_BROKEN "アーカイブヘッダが壊れています: %s\n"
+    IDS_NOT_VALID_RAR_ARCHIVE "有効なRARアーカイブではありません: %s\n"
+    IDS_FILE_OPEN_ERROR     "ファイルがオープンできません: %s\n"
+    IDS_UNDOCUMENTED        "不明なUnRAR.DLLのエラーです: %d: %s\n"
+    IDS_CRC_ERROR           "CRCエラー: %s\n"
+    IDS_NOT_VALID_RAR_VOLUME 
+                            "有効なRARアーカイブのボリュームではありません: %s\n"
+    IDS_UNKNOWN_ARCHIVE_FORMAT "不明なアーカイブフォーマットです: %s\n"
+    IDS_VOLUME_OPEN         "ボリュームがオープンできません: %s\n"
+    IDS_FILE_CREATE_ERROR   "ファイルが作成できません: %s\n"
+    IDS_FILE_CLOSE_ERROR    "ファイルクローズエラー: %s\n"
+    IDS_READ_ERROR          "リードエラー: %s\n"
+    IDS_WRITE_ERROR         "ライトエラー: %s\n"
+    IDS_FILE_HEADER_BROKEN  "ファイルヘッダが壊れています: %s\n"
+    IDS_NO_ARCHIVE_FILE     "アーカイブファイルが指定されていません\n"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_UNRECOGNIZED_OPTION "認識できないオプションです: `-%c'\n"
+    IDS_OPTION_REQ_ARGS     "`-%c'には引数が必要です\n"
+    IDS_FILE_NAME_TOO_LONG  "ファイル名が長すぎます: %s\n"
+    IDS_MISSING_PASSWORD    "パスワードが必要です: %s\n"
+    IDS_CANCELED            "Canceled\n"
+    IDS_CANNOT_SET_EOF      "EOFが設定できません\n"
+    IDS_CREATING            "Creating %s\n"
+    IDS_CANNOT_CREATE       "%sを作成できません\n"
+    IDS_EXTRACTING_FROM     "Extracting from %s\n"
+    IDS_TEST_NOT_IMPL       "testコマンドは実装されていません m(. .)m\n"
+    IDS_PRINT_NOT_IMPL      "printコマンドは実装されていません m(. .)m\n"
+    IDS_COMMENT_NOT_IMPL    "commentコマンドは実装されていません m(. .)m\n"
+    IDS_DISK_FULL           "ディスクの空き容量が不足しています\n"
+    IDS_SKIPPING            "Skipping %s\n"
+    IDS_EXTRACTING          "Extracting %s\n"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_UNRAR_NOT_LOADED    "UnRAR.DLLがロードできません"
+    IDS_FILTER              "すべてのファイル|*.*|"
+    IDS_INVALID_SECURITY_LEVEL "不正なセキュリティレベルです: %c\n"
+END
+
+#endif    // 日本語 resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+/////////////////////////////////////////////////////////////////////////////
+// 英語 (ｱﾒﾘｶ) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+#endif //_WIN32
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_ASKPASSWD DIALOG DISCARDABLE  0, 0, 199, 74
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Encrypted archive"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&Password:",IDC_STATIC,7,25,32,8
+    EDITTEXT        IDC_PASSWD,45,22,136,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,42,54,52,13
+    PUSHBUTTON      "Cancel",IDCANCEL,105,54,52,13
+END
+
+IDD_CHANGEVOL DIALOG DISCARDABLE  0, 0, 223, 61
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Change volume"
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "&File:",IDC_STATIC,7,16,13,8
+    EDITTEXT        IDC_PATH,28,13,173,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_REF,204,13,12,14
+    DEFPUSHBUTTON   "OK",IDOK,53,40,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,119,40,50,14
+END
+
+IDD_INPROG DIALOG DISCARDABLE  0, 0, 187, 102
+STYLE DS_MODALFRAME | WS_POPUP
+FONT 8, "MS Sans Serif"
+BEGIN
+    LTEXT           "Name:",IDC_STATIC,7,7,20,8
+    LTEXT           "",IDC_NAME,33,7,147,15,SS_NOPREFIX
+    LTEXT           "Path:",IDC_STATIC,7,25,17,8
+    LTEXT           "",IDC_DSTPATH,33,25,147,15,SS_NOPREFIX
+    LTEXT           "Size:",IDC_STATIC,7,43,16,8
+    LTEXT           "",IDC_FILESIZE,33,43,147,8,SS_NOPREFIX
+    LTEXT           "999%",IDC_PERCENT,7,64,17,8
+    CONTROL         "Progress1",IDC_PROG,"msctls_progress32",WS_BORDER,28,61,
+                    152,14
+    PUSHBUTTON      "Cancel",IDCANCEL,66,81,50,14
+END
+
+IDD_REPLACE DIALOG DISCARDABLE  0, 0, 239, 155
+STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Overwrite existing file?"
+FONT 8, "MS Sans Serif"
+BEGIN
+    ICON            "",IDC_Q,7,7,20,20
+    LTEXT           "Name:",IDC_STATIC,37,7,20,8
+    LTEXT           "",IDC_NAME,70,7,162,16,SS_NOPREFIX
+    LTEXT           "Path:",IDC_STATIC,37,29,17,8
+    LTEXT           "",IDC_PATH,70,29,162,16,SS_NOPREFIX
+    LTEXT           "Old file:",IDC_STATIC,37,54,23,8
+    LTEXT           "Size:",IDC_STATIC,47,65,16,8
+    LTEXT           "",IDC_OLDSIZE,81,65,151,8,SS_NOPREFIX
+    LTEXT           "Modified:",IDC_STATIC,47,76,27,8
+    LTEXT           "",IDC_OLDDATE,81,76,151,8,SS_NOPREFIX
+    LTEXT           "New file:",IDC_STATIC,37,89,26,8
+    LTEXT           "Size:",IDC_STATIC,47,100,16,8
+    LTEXT           "",IDC_NEWSIZE,81,100,151,8,SS_NOPREFIX
+    LTEXT           "Modified:",IDC_STATIC,47,111,27,8
+    LTEXT           "",IDC_NEWDATE,81,111,151,8,SS_NOPREFIX
+    PUSHBUTTON      "&Yes",IDYES,9,134,50,14
+    DEFPUSHBUTTON   "&No",IDNO,66,134,50,14
+    PUSHBUTTON      "&All",IDC_ALL,123,134,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,180,134,50,14
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO DISCARDABLE 
+BEGIN
+    IDD_ASKPASSWD, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 192
+        TOPMARGIN, 6
+        BOTTOMMARGIN, 67
+    END
+
+    IDD_CHANGEVOL, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 216
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 54
+    END
+
+    IDD_INPROG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 180
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 95
+    END
+
+    IDD_REPLACE, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 232
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 148
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+#ifndef _MAC
+/////////////////////////////////////////////////////////////////////////////
+//
+// Version
+//
+
+VS_VERSION_INFO VERSIONINFO
+ FILEVERSION 0,0,12,0
+ PRODUCTVERSION 0,0,12,0
+ FILEFLAGSMASK 0x3fL
+#ifdef _DEBUG
+ FILEFLAGS 0x1L
+#else
+ FILEFLAGS 0x0L
+#endif
+ FILEOS 0x4L
+ FILETYPE 0x2L
+ FILESUBTYPE 0x0L
+BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+        BLOCK "040904b0"
+        BEGIN
+            VALUE "Comments", "Common Archiver Project's UNRAR32.DLL\0"
+            VALUE "CompanyName", "Free software\0"
+            VALUE "FileDescription", "UNRAR32\0"
+            VALUE "FileVersion", "0, 0, 12, 0\0"
+            VALUE "InternalName", "unrar32\0"
+            VALUE "LegalCopyright", "Copyright ｩ 1998-2004 T. Kamei\0"
+            VALUE "LegalTrademarks", "Common Archiver Project\0"
+            VALUE "OriginalFilename", "unrar32.dll\0"
+            VALUE "PrivateBuild", "\0"
+            VALUE "ProductName", "UNRAR32 Dynamic Link Library\0"
+            VALUE "ProductVersion", "0, 0, 12, 0\0"
+            VALUE "SpecialBuild", "\0"
+        END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+        VALUE "Translation", 0x409, 1200
+    END
+END
+
+#endif    // !_MAC
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_NOT_ENOUGH_MEMORY   "Not enough memory\n"
+    IDS_ARCHIVE_HEADER_BROKEN "Archive header broken: %s\n"
+    IDS_NOT_VALID_RAR_ARCHIVE "File is not valid RAR archive: %s\n"
+    IDS_FILE_OPEN_ERROR     "File open error: %s\n"
+    IDS_UNDOCUMENTED        "Undocumented error: %d: %s\n"
+    IDS_CRC_ERROR           "File CRC error: %s\n"
+    IDS_NOT_VALID_RAR_VOLUME "Volume is not valid RAR archive: %s\n"
+    IDS_UNKNOWN_ARCHIVE_FORMAT "Unknown archive format: %s\n"
+    IDS_VOLUME_OPEN         "Volume open error: %s\n"
+    IDS_FILE_CREATE_ERROR   "File create error: %s\n"
+    IDS_FILE_CLOSE_ERROR    "File close error: %s\n"
+    IDS_READ_ERROR          "Read error: %s\n"
+    IDS_WRITE_ERROR         "Write error: %s\n"
+    IDS_FILE_HEADER_BROKEN  "File header broken: %s\n"
+    IDS_NO_ARCHIVE_FILE     "No archive files specified\n"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_UNRECOGNIZED_OPTION "Unrecognized option: `-%c'\n"
+    IDS_OPTION_REQ_ARGS     "`-%c' requires an argument\n"
+    IDS_FILE_NAME_TOO_LONG  "File name too long: %s\n"
+    IDS_MISSING_PASSWORD    "Password for encrypted file is not specified: %s\n"
+    IDS_CANCELED            "Canceled\n"
+    IDS_CANNOT_SET_EOF      "Cannot set end-of-file\n"
+    IDS_CREATING            "Creating %s\n"
+    IDS_CANNOT_CREATE       "Cannot create %s\n"
+    IDS_EXTRACTING_FROM     "Extracting from %s\n"
+    IDS_TEST_NOT_IMPL       "Sorry, test command is not implemented yet\n"
+    IDS_PRINT_NOT_IMPL      "Sorry, print command is not implemented yet\n"
+    IDS_COMMENT_NOT_IMPL    "Sorry, comment command is not implemented yet\n"
+    IDS_DISK_FULL           "No space left on device\n"
+    IDS_SKIPPING            "Skipping %s\n"
+    IDS_EXTRACTING          "Extracting %s\n"
+END
+
+STRINGTABLE DISCARDABLE 
+BEGIN
+    IDS_UNRAR_NOT_LOADED    "Unable to load UnRAR.DLL"
+    IDS_FILTER              "All Files|*.*|"
+    IDS_INVALID_SECURITY_LEVEL "Invalid security level: %c\n"
+END
+
+#endif    // 英語 (ｱﾒﾘｶ) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

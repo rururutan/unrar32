@@ -1,0 +1,14 @@
+*.*~
+ipch/
+src/Debug/
+src/Debug(x64)/
+src/Release/
+src/Release(x64)/
+*.lib
+*.obj
+*.aps
+*.ncb
+*.suo
+*.sdf
+*.opensdf
+*.user
