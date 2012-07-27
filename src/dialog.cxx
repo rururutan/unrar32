@@ -87,7 +87,7 @@ set_date (HWND hwnd, int id, DWORD date)
   SetDlgItemText (hwnd, id, buf);
 }
 
-static BOOL CALLBACK
+static INT_PTR CALLBACK
 replace_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
   switch (msg)
@@ -132,7 +132,7 @@ replace_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
   return 0;
 }
 
-int
+INT_PTR
 replace_dialog (HWND hwnd_parent, const replace_param &rp)
 {
   return DialogBoxParam (lstate.hinst, MAKEINTRESOURCE (IDD_REPLACE),
@@ -150,18 +150,18 @@ doevents ()
     }
 }
 
-BOOL CALLBACK
+INT_PTR CALLBACK
 progress_dlg::progress_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
   progress_dlg *p;
   if (msg == WM_INITDIALOG)
     {
-      SetWindowLong (hwnd, DWL_USER, lparam);
+      SetWindowLongPtr (hwnd, DWLP_USER, lparam);
       p = (progress_dlg *)lparam;
       p->m_hwnd = hwnd;
     }
   else
-    p = (progress_dlg *)GetWindowLong (hwnd, DWL_USER);
+    p = (progress_dlg *)GetWindowLongPtr (hwnd, DWLP_USER);
   return p ? p->wndproc (msg, wparam, lparam) : 0;
 }
 
@@ -255,7 +255,7 @@ progress_dlg::update (const int64 &n) const
 
 static char passwd[128];
 
-static BOOL CALLBACK
+static INT_PTR CALLBACK
 askpass_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
   switch (msg)
@@ -288,7 +288,7 @@ askpass_dialog (HWND hwnd_parent)
 
 static char *vol_name;
 
-static BOOL CALLBACK
+static INT_PTR CALLBACK
 changevol_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 {
   switch (msg)

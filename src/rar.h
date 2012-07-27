@@ -90,7 +90,7 @@ private:
 };
 
 //Callback for UnRAR.DLL
-int CALLBACK rar_event_handler(UINT msg,LONG UserData,LONG P1,LONG P2);
-int CALLBACK rar_openarc_handler(UINT msg,LONG UserData,LONG P1,LONG P2);	//for UnrarOpenArchive()
+int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2);
+int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2);	//for UnrarOpenArchive()
 
 #endif

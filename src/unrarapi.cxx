@@ -54,7 +54,11 @@ ReadHeaderEx (HANDLE h, RARHeaderDataEx *hde)
 HINSTANCE
 load_rarapi ()
 {
+#ifdef _WIN64
+  HINSTANCE h = LoadLibrary ("unrar64.dll");
+#else
   HINSTANCE h = LoadLibrary ("unrar.dll");
+#endif
   if (!h)
     return 0;
   if ((rarOpenArchive = RAROPENARCHIVE (GetProcAddress (h, "RAROpenArchive")))

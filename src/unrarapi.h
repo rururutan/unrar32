@@ -67,7 +67,7 @@ typedef int (__stdcall *RARCLOSEARCHIVE)(HANDLE);
 typedef int (__stdcall *RARREADHEADER)(HANDLE, RARHeaderData *);
 typedef int (__stdcall *RARREADHEADEREX)(HANDLE, RARHeaderDataEx *);
 typedef int (__stdcall *RARPROCESSFILE)(HANDLE, int, char *, char *);
-typedef void (__stdcall *RARSETCALLBACK)(HANDLE,int (CALLBACK*)(UINT,LONG,LONG,LONG),LONG);
+typedef void (__stdcall *RARSETCALLBACK)(HANDLE,int (CALLBACK*)(UINT,LPARAM,LPARAM,LPARAM),LPARAM);
 
 #ifndef EXTERN
 #define EXTERN extern

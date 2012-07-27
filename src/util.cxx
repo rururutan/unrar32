@@ -194,7 +194,7 @@ cmdline::discard ()
 char *
 cmdline::copyarg (const u_char *s, const u_char *se, int dq)
 {
-  int l = se - s - dq;
+  size_t l = se - s - dq;
   if (!l)
     return "";
   char *d0 = (char *)malloc (l + 1);
@@ -209,7 +209,7 @@ cmdline::copyarg (const u_char *s, const u_char *se, int dq)
 }
 
 int
-cmdline::parse (const char *cmdline, int l, bool resp_ok)
+cmdline::parse (const char *cmdline, size_t l, bool resp_ok)
 {
   if (!cmdline)
     return 0;

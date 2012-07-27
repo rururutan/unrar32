@@ -48,7 +48,7 @@ public:
     {}
   ~cmdline ()
     {discard ();}
-  int parse (const char *cmdline, int l, bool resp_ok);
+  int parse (const char *cmdline, size_t l, bool resp_ok);
   int parse (const char *cmdline, bool resp_ok)
     {return parse (cmdline, cmdline ? strlen (cmdline) : 0, resp_ok);}
   int argc () const {return m_ac;}

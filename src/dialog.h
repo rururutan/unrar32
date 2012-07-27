@@ -27,7 +27,7 @@ struct replace_param
   int64 new_size;
 };
 
-int replace_dialog (HWND hwnd_parent, const replace_param &rp);
+INT_PTR replace_dialog (HWND hwnd_parent, const replace_param &rp);
 
 class progress_dlg
 {
@@ -43,7 +43,7 @@ public:
   int create (HWND hwnd_parent);
   int init (const char *path, unsigned maxl, unsigned maxh);
   int update (const int64 &n) const;
-  static BOOL CALLBACK progress_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+  static INT_PTR CALLBACK progress_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
   BOOL wndproc (UINT msg, WPARAM wparam, LPARAM lparam);
 };
 

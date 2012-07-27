@@ -456,7 +456,7 @@ struct extract_info
 static extract_info *xtract_info;
 static const UINT UWM_ARCEXTRACT = RegisterWindowMessage (WM_ARCEXTRACT);
 
-static int
+static LONG_PTR
 run_callback (int mode, EXTRACTINGINFOEX &ex)
 {
   return (lstate.has_callback
@@ -514,14 +514,14 @@ change_volume (void *, char *path, int mode)
   return change_vol_dialog (xtract_info ? xtract_info->hwnd_owner : 0, path);
 }
 
-int CALLBACK rar_event_handler(UINT msg,LONG UserData,LONG P1,LONG P2)
+int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
 {
   switch(msg)
     {
     case UCM_CHANGEVOLUME:
-      return change_volume(NULL,(char*)P1,P2);
+      return change_volume(NULL,(char*)P1,(int)P2);
     case UCM_PROCESSDATA:
-      return extract_helper(NULL,(u_char*)P1,P2);
+      return extract_helper(NULL,(u_char*)P1,(int)P2);
     case UCM_NEEDPASSWORD:
       {
         const char* pwd=NULL;
@@ -547,14 +547,14 @@ int CALLBACK rar_event_handler(UINT msg,LONG UserData,LONG P1,LONG P2)
     }
 }
 
-int CALLBACK rar_openarc_handler(UINT msg,LONG UserData,LONG P1,LONG P2)
+int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
 {
   switch(msg)
     {
     case UCM_CHANGEVOLUME:
-      return change_volume(NULL,(char*)P1,P2);
+      return change_volume(NULL,(char*)P1,(int)P2);
     case UCM_PROCESSDATA:
-      return extract_helper(NULL,(u_char*)P1,P2);
+      return extract_helper(NULL,(u_char*)P1,(int)P2);
     case UCM_NEEDPASSWORD:
       {
         const char* pwd=NULL;
@@ -734,7 +734,7 @@ UnRAR::extract1 ()
   if(m_opt & O_NOT_ASK_PASSWORD){
     rd.can_ask_password=false;
   }
-  rarSetCallback(rd.h,rar_event_handler,(LONG)&rd);
+  rarSetCallback(rd.h,rar_event_handler,(LPARAM)&rd);
 
   progress_dlg progress;
   if (!lstate.has_callback && !(m_opt & O_QUIET))
@@ -848,7 +848,7 @@ UnRAR::list ()
   if(m_opt & O_NOT_ASK_PASSWORD){
     rd.can_ask_password=false;
   }
-  rarSetCallback(rd.h,rar_event_handler,(LONG)&rd);
+  rarSetCallback(rd.h,rar_event_handler,(LPARAM)&rd);
 
   format ("  Name         Original   Packed  Ratio   Date     Time   Attr Method  CRC\n");
   format ("-------------- -------- -------- ------ -------- -------- ---- ------- --------\n");
