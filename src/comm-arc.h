@@ -90,6 +90,15 @@ typedef struct
 }
   EXTRACTINGINFOEX, FAR *LPEXTRACTINGINFOEX;
 
+#if !defined(__BORLANDC__) || __BORLANDC__ >= 0x550
+typedef LONGLONG	ULHA_INT64;
+#else
+typedef struct {
+	DWORD	LowPart;
+	LONG	HighPart;
+} ULHA_INT64, *LPULHA_INT64;
+#endif
+
 #ifdef __BORLANDC__
 #pragma option -a.
 #else
@@ -169,7 +178,12 @@ typedef struct
 #define ISARC_GET_CREATE_TIME			68
 #define ISARC_GET_ACCESS_TIME			69
 
-#define ISARC_FUNCTION_END			69
+#define ISARC_GET_ARC_FILE_SIZE_EX			82
+#define ISARC_GET_ARC_ORIGINAL_SIZE_EX		83
+#define ISARC_GET_ARC_COMPRESSED_SIZE_EX	84
+#define ISARC_GET_ORIGINAL_SIZE_EX			85
+#define ISARC_GET_COMPRESSED_SIZE_EX		86
+#define ISARC_FUNCTION_END			87
 
 #endif /* ISARC_FUNCTION_START */
 

@@ -235,6 +235,11 @@ UnrarQueryFunctionList (int i)
     case ISARC_GET_ATTRIBUTE:
     case ISARC_GET_OS_TYPE:
     case ISARC_GET_METHOD:
+    case ISARC_GET_ARC_FILE_SIZE_EX:
+    case ISARC_GET_ARC_ORIGINAL_SIZE_EX:
+    case ISARC_GET_ARC_COMPRESSED_SIZE_EX:
+    case ISARC_GET_ORIGINAL_SIZE_EX:
+    case ISARC_GET_COMPRESSED_SIZE_EX:
     //case ISARC_GET_WRITE_TIME:
     //case ISARC_GET_CREATE_TIME:
     //case ISARC_GET_ACCESS_TIME:
@@ -356,6 +361,19 @@ UnrarGetArcFileSize (HARC harc)
   return info && !info->m_arcsize.s.h ? info->m_arcsize.s.l : -1;
 }
 
+BOOL WINAPI
+UnrarGetArcFileSizeEx (HARC harc, ULHA_INT64 *lpllSize)
+{
+  IN_API (DWORD (-1), DWORD (-1));
+  arcinfo *info = arcinfo::find (harc);
+  if (info) {
+    *lpllSize = info->m_arcsize.d;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 DWORD WINAPI
 UnrarGetArcOriginalSize (HARC harc)
 {
@@ -364,12 +382,38 @@ UnrarGetArcOriginalSize (HARC harc)
   return info && !info->m_orig_sz.s.h ? info->m_orig_sz.s.l : -1;
 }
 
+BOOL WINAPI
+UnrarGetArcOriginalSizeEx (HARC harc, ULHA_INT64 *lpllSize)
+{
+  IN_API (DWORD (-1), DWORD (-1));
+  arcinfo *info = arcinfo::find (harc);
+  if (info) {
+    *lpllSize = info->m_orig_sz.d;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 DWORD WINAPI
 UnrarGetArcCompressedSize (HARC harc)
 {
   IN_API (DWORD (-1), DWORD (-1));
   arcinfo *info = arcinfo::find (harc);
   return info && !info->m_comp_sz.s.h ? info->m_comp_sz.s.l : -1;
+}
+
+BOOL WINAPI
+UnrarGetArcCompressedSizeEx (HARC harc, ULHA_INT64 *lpllSize)
+{
+  IN_API (DWORD (-1), DWORD (-1));
+  arcinfo *info = arcinfo::find (harc);
+  if (info) {
+    *lpllSize = info->m_comp_sz.d;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
 }
 
 WORD WINAPI
@@ -451,12 +495,38 @@ UnrarGetOriginalSize (HARC harc)
   return info && info->m_is_valid && !info->m_hd.UnpSizeHigh ? info->m_hd.UnpSize : -1;
 }
 
+BOOL WINAPI
+UnrarGetOriginalSizeEx (HARC harc, ULHA_INT64 *lpllSize)
+{
+  IN_API (DWORD (-1), DWORD (-1));
+  arcinfo *info = arcinfo::find (harc);
+  if (info && info->m_is_valid) {
+    *lpllSize = (ULHA_INT64)info->m_hd.UnpSizeHigh <<32 | (ULHA_INT64)info->m_hd.UnpSize;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
+}
+
 DWORD WINAPI
 UnrarGetCompressedSize (HARC harc)
 {
   IN_API (DWORD (-1), DWORD (-1));
   arcinfo *info = arcinfo::find (harc);
   return info && info->m_is_valid && !info->m_hd.PackSizeHigh ? info->m_hd.PackSize : -1;
+}
+
+BOOL WINAPI
+UnrarGetCompressedSizeEx (HARC harc, ULHA_INT64 *lpllSize)
+{
+  IN_API (DWORD (-1), DWORD (-1));
+  arcinfo *info = arcinfo::find (harc);
+  if (info && info->m_is_valid) {
+    *lpllSize = (ULHA_INT64)info->m_hd.PackSizeHigh <<32 | (ULHA_INT64)info->m_hd.PackSize;
+    return TRUE;
+  } else {
+    return FALSE;
+  }
 }
 
 WORD WINAPI

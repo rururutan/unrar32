@@ -36,6 +36,11 @@ EXPORTS
 	UnrarGetOSType			@48
 	UnrarExtractMem			@49
 	UnrarCompressMem		@50
+	UnrarGetArcFileSizeEx		@51
+	UnrarGetArcOriginalSizeEx	@52
+	UnrarGetArcCompressedSizeEx	@53
+	UnrarGetOriginalSizeEx		@54
+	UnrarGetCompressedSizeEx	@55
 	UnrarGetMethod			@61
 	UnrarGetWriteTime		@62
 	UnrarGetAccessTime		@63
