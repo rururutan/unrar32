@@ -185,7 +185,7 @@ UnrarGetFileCount (const char *path)
   if (!rd.open (path, RAR_OM_LIST))
     return -1;
 
-  rarSetCallback(rd.h,rar_event_handler,(ULONG)&rd);
+  rarSetCallback(rd.h,rar_event_handler,(LPARAM)&rd);
 
   int e, nfiles;
   for (nfiles = 0; !(e = rd.read_header ()) && !(e = rd.skip ()); nfiles++)
