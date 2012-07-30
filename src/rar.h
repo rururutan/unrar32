@@ -68,9 +68,9 @@ private:
   EXTRACTINGINFOEX m_ex;
 
   int mkdirhier (const char *path);
-  int check_timestamp (const char *path, const rarHeaderData &hd);
+  int check_timestamp (const char *path, const rarHeaderDataEx &hde);
   int parse_opt (int ac, char **av);
-  int extract (rarData &rd, const char *path, const rarHeaderData &hd,
+  int extract (rarData &rd, const char *path, const rarHeaderDataEx &hde,
                class progress_dlg &process);
   int extract ();
   int extract1 ();
@@ -91,6 +91,6 @@ private:
 
 //Callback for UnRAR.DLL
 int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2);
-int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2);	//for UnrarOpenArchive()
+int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2);	//for UnrarOpenArchiveEx()
 
 #endif

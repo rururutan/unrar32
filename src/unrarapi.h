@@ -29,42 +29,53 @@ extern "C"
 
 #define FRAR_PATH_MAX (sizeof ((RARHeaderDataEx *)0)->FileName)
 
-class rarOpenArchiveData: public RAROpenArchiveData
+class rarOpenArchiveDataEx: public RAROpenArchiveDataEx
 {
 public:
-  rarOpenArchiveData (char *buf = 0, int size = 0)
+  rarOpenArchiveDataEx (char *buf = 0, int size = 0)
     {
+      ArcName = 0;
+      ArcNameW = 0;
       CmtBuf = buf;
       CmtBufSize = size;
+	  OpenMode = 0;
+      Callback = 0;
+      UserData = 0;
+      ZeroMemory(Reserved, sizeof(Reserved));
     }
-  rarOpenArchiveData (const char *path, int mode,
-                      char *buf = 0, int size = 0)
+  rarOpenArchiveDataEx (const char *path, int mode,
+                        char *buf = 0, int size = 0)
     {
       ArcName = (char *)path;
+      ArcNameW = 0;
       CmtBuf = buf;
       CmtBufSize = size;
       OpenMode = mode;
+      Callback = 0;
+      UserData = 0;
+      ZeroMemory(Reserved, sizeof(Reserved));
     }
 };
 
-class rarHeaderData: public RARHeaderDataEx
+class rarHeaderDataEx: public RARHeaderDataEx
 {
 public:
-  rarHeaderData ()
+  rarHeaderDataEx ()
     {
       CmtBuf = 0;
       CmtBufSize = 0;
+      ZeroMemory(Reserved, sizeof(Reserved));
     }
-  rarHeaderData (char *buf, int size)
+  rarHeaderDataEx (char *buf, int size)
     {
       CmtBuf = buf;
       CmtBufSize = size;
+      ZeroMemory(Reserved, sizeof(Reserved));
     }
 };
 
-typedef HANDLE (__stdcall *RAROPENARCHIVE)(RAROpenArchiveData *);
+typedef HANDLE (__stdcall *RAROPENARCHIVEEX)(RAROpenArchiveDataEx *);
 typedef int (__stdcall *RARCLOSEARCHIVE)(HANDLE);
-typedef int (__stdcall *RARREADHEADER)(HANDLE, RARHeaderData *);
 typedef int (__stdcall *RARREADHEADEREX)(HANDLE, RARHeaderDataEx *);
 typedef int (__stdcall *RARPROCESSFILE)(HANDLE, int, char *, char *);
 typedef void (__stdcall *RARSETCALLBACK)(HANDLE,int (CALLBACK*)(UINT,LPARAM,LPARAM,LPARAM),LPARAM);
@@ -73,9 +84,8 @@ typedef void (__stdcall *RARSETCALLBACK)(HANDLE,int (CALLBACK*)(UINT,LPARAM,LPAR
 #define EXTERN extern
 #endif
 
-EXTERN RAROPENARCHIVE rarOpenArchive;
+EXTERN RAROPENARCHIVEEX rarOpenArchiveEx;
 EXTERN RARCLOSEARCHIVE rarCloseArchive;
-EXTERN RARREADHEADER rarReadHeader;
 EXTERN RARREADHEADEREX rarReadHeaderEx;
 EXTERN RARPROCESSFILE rarProcessFile;
 EXTERN RARSETCALLBACK rarSetCallback;
@@ -84,8 +94,8 @@ class rarData
 {
 public:
   HANDLE h;
-  rarOpenArchiveData oad;
-  rarHeaderData hd;
+  rarOpenArchiveDataEx oade;
+  rarHeaderDataEx hde;
 
   LPVOID pUserData;
   bool can_ask_password;
@@ -99,7 +109,7 @@ public:
   bool open (const char *filename, int mode, char *buf = 0, int size = 0);
   int close ();
   int read_header ()
-    {return rarReadHeaderEx (h, &hd);}
+    {return rarReadHeaderEx (h, &hde);}
   int skip () const
     {return rarProcessFile (h, RAR_SKIP, 0, 0);}
   int test () const

@@ -19,7 +19,7 @@
 class arcinfo
 {
 public:
-  rarHeaderData m_hd;
+  rarHeaderDataEx m_hde;
   cmdline m_cl;
   glob m_glob;
   HANDLE m_hunrar;
@@ -33,7 +33,7 @@ public:
   bool m_is_first_time;
   bool m_is_valid;
   bool m_is_eof;
-  char m_arcpath[MAX_PATH + 1];
+  char m_arcpath[1024 + 1];
   bool m_is_missing_password;
 
   arcinfo ();

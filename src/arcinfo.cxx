@@ -79,8 +79,8 @@ arcinfo::open (const char *filename, DWORD mode)
   m_is_valid = false;
   m_is_eof = false;
 
-  rarOpenArchiveData oad (filename, RAR_OM_LIST);
-  m_hunrar = rarOpenArchive (&oad);
+  rarOpenArchiveDataEx oade (filename, RAR_OM_LIST);
+  m_hunrar = rarOpenArchiveEx (&oade);
   return m_hunrar != 0;
 }
 
@@ -103,7 +103,7 @@ arcinfo::findnext (INDIVIDUALINFO *vinfo, bool skip)
     {
       if (m_is_eof
           || (skip && rarProcessFile (m_hunrar, RAR_SKIP, 0, 0))
-          || rarReadHeaderEx (m_hunrar, &m_hd))
+          || rarReadHeaderEx (m_hunrar, &m_hde))
         {
           m_is_eof = true;
           m_is_valid = false;
@@ -115,28 +115,28 @@ arcinfo::findnext (INDIVIDUALINFO *vinfo, bool skip)
         }
       skip = true;
     }
-  while (!m_glob.match (m_hd.FileName, (m_mode & M_CHECK_ALL_PATH) != 0, 0));
+  while (!m_glob.match (m_hde.FileName, (m_mode & M_CHECK_ALL_PATH) != 0, 0));
 
-  m_orig_sz.d += m_hd.UnpSize;
-  m_orig_sz.s.h += m_hd.UnpSizeHigh;
-  m_comp_sz.d += m_hd.PackSize;
-  m_comp_sz.s.h += m_hd.PackSizeHigh;
+  m_orig_sz.d += m_hde.UnpSize;
+  m_orig_sz.s.h += m_hde.UnpSizeHigh;
+  m_comp_sz.d += m_hde.PackSize;
+  m_comp_sz.s.h += m_hde.PackSizeHigh;
   m_is_valid = true;
 
   if (vinfo)
     {
-      vinfo->dwOriginalSize = !m_hd.UnpSizeHigh ? m_hd.UnpSize : -1;
-      vinfo->dwCompressedSize = !m_hd.PackSizeHigh ? m_hd.PackSize : -1;
-      vinfo->dwCRC = m_hd.FileCRC;
+      vinfo->dwOriginalSize = !m_hde.UnpSizeHigh ? m_hde.UnpSize : -1;
+      vinfo->dwCompressedSize = !m_hde.PackSizeHigh ? m_hde.PackSize : -1;
+      vinfo->dwCRC = m_hde.FileCRC;
       vinfo->uFlag = 0;
-      vinfo->uOSType = os_type (m_hd.HostOS);
-      vinfo->wRatio = WORD (calc_ratio (m_hd.PackSizeHigh, m_hd.PackSize,
-                                        m_hd.UnpSizeHigh, m_hd.UnpSize));
-      vinfo->wDate = HIWORD (m_hd.FileTime);
-      vinfo->wTime = LOWORD (m_hd.FileTime);
-      strlcpy (vinfo->szFileName, m_hd.FileName, sizeof vinfo->szFileName);
-      strcpy (vinfo->szAttribute, attr_string (m_hd.FileAttr));
-      strcpy (vinfo->szMode, method_string (m_hd.Method));
+      vinfo->uOSType = os_type (m_hde.HostOS);
+      vinfo->wRatio = WORD (calc_ratio (m_hde.PackSizeHigh, m_hde.PackSize,
+                                        m_hde.UnpSizeHigh, m_hde.UnpSize));
+      vinfo->wDate = HIWORD (m_hde.FileTime);
+      vinfo->wTime = LOWORD (m_hde.FileTime);
+      strlcpy (vinfo->szFileName, m_hde.FileName, sizeof vinfo->szFileName);
+      strcpy (vinfo->szAttribute, attr_string (m_hde.FileAttr));
+      strcpy (vinfo->szMode, method_string (m_hde.Method));
     }
   return 0;
 }

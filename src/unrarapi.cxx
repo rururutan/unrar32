@@ -19,38 +19,6 @@
 #include "unrarapi.h"
 #include "util.h"
 
-static int __stdcall
-ReadHeaderEx (HANDLE h, RARHeaderDataEx *hde)
-{
-  RARHeaderData hd;
-  hd.CmtBuf = hde->CmtBuf;
-  hd.CmtBufSize = hde->CmtBufSize;
-
-  int r = rarReadHeader (h, &hd);
-
-  strlcpy (hde->ArcName, hd.ArcName, sizeof hd.ArcName);
-  *hde->ArcNameW = 0;
-  strlcpy (hde->FileName, hd.FileName, sizeof hd.FileName);
-  *hde->FileNameW = 0;
-  hde->Flags = hd.Flags;
-  hde->PackSize = hd.PackSize;
-  hde->PackSizeHigh = 0;
-  hde->UnpSize = hd.UnpSize;
-  hde->UnpSizeHigh = 0;
-  hde->HostOS = hd.HostOS;
-  hde->FileCRC = hd.FileCRC;
-  hde->FileTime = hd.FileTime;
-  hde->UnpVer = hd.UnpVer;
-  hde->Method = hd.Method;
-  hde->FileAttr = hd.FileAttr;
-  hde->CmtBuf = hd.CmtBuf;
-  hde->CmtBufSize = hd.CmtBufSize;
-  hde->CmtSize = hd.CmtSize;
-  hde->CmtState = hd.CmtState;
-
-  return r;
-}
-
 HINSTANCE
 load_rarapi ()
 {
@@ -61,20 +29,13 @@ load_rarapi ()
 #endif
   if (!h)
     return 0;
-  if ((rarOpenArchive = RAROPENARCHIVE (GetProcAddress (h, "RAROpenArchive")))
+  if ((rarOpenArchiveEx = RAROPENARCHIVEEX (GetProcAddress (h, "RAROpenArchiveEx")))
       && (rarCloseArchive = RARCLOSEARCHIVE (GetProcAddress (h, "RARCloseArchive")))
       && (rarProcessFile = RARPROCESSFILE (GetProcAddress (h, "RARProcessFile")))
-      && (rarSetCallback = RARSETCALLBACK (GetProcAddress (h, "RARSetCallback"))))
+      && (rarSetCallback = RARSETCALLBACK (GetProcAddress (h, "RARSetCallback")))
+      && (rarReadHeaderEx = RARREADHEADEREX (GetProcAddress (h, "RARReadHeaderEx"))))
     {
-      rarReadHeaderEx = RARREADHEADEREX (GetProcAddress (h, "RARReadHeaderEx"));
-      if (rarReadHeaderEx)
-        return h;
-      rarReadHeader = RARREADHEADER (GetProcAddress (h, "RARReadHeader"));
-      if (rarReadHeader)
-        {
-          rarReadHeaderEx = ReadHeaderEx;
-          return h;
-        }
+      return h;
     }
 
   FreeLibrary (h);
@@ -84,13 +45,17 @@ load_rarapi ()
 bool
 rarData::open (const char *filename, int mode, char *buf, int size)
 {
-  oad.ArcName = (char *)filename;
-  oad.CmtBuf = buf;
-  oad.CmtBufSize = size;
-  oad.OpenMode = mode;
-  hd.CmtBuf = 0;
-  hd.CmtBufSize = 0;
-  h = rarOpenArchive (&oad);
+  oade.ArcName = (char *)filename;
+  oade.ArcNameW = 0;
+  oade.CmtBuf = buf;
+  oade.CmtBufSize = size;
+  oade.OpenMode = mode;
+  oade.Callback = 0;
+  oade.UserData = 0;
+  ZeroMemory(oade.Reserved, sizeof(oade.Reserved));
+  hde.CmtBuf = 0;
+  hde.CmtBufSize = 0;
+  h = rarOpenArchiveEx (&oade);
   return h != 0;
 }
 

@@ -25,7 +25,7 @@
 #include "resource.h"
 #include "dialog.h"
 
-#define UNRAR32_VERSION 12
+#define UNRAR32_VERSION 13
 
 class in_progress
 {
@@ -153,7 +153,7 @@ UnrarCheckArchive (const char *path, int mode)
 
   int e, nfiles = 0;
   while (!(e = rd.read_header ())
-         && !(rd.hd.Flags & FRAR_NEXTVOL)
+         && !(rd.hde.Flags & FRAR_NEXTVOL)
          && ((mode & CHECKARCHIVE_MASK) != CHECKARCHIVE_FULLCRC)
          && (!(e = rd.test ())
              || (e == ERAR_BAD_DATA
@@ -465,9 +465,9 @@ UnrarGetFileName (HARC harc, LPSTR buf, int size)
     return ERROR_HARC_ISNOT_OPENED;
   if (!info->m_is_valid)
     return ERROR_NOT_SEARCH_MODE;
-  if (int (strlen (info->m_hd.FileName)) >= size)
+  if (int (strlen (info->m_hde.FileName)) >= size)
     return ERROR_BUF_TOO_SMALL;
-  strcpy (buf, info->m_hd.FileName);
+  strcpy (buf, info->m_hde.FileName);
   return 0;
 }
 
@@ -480,7 +480,7 @@ UnrarGetMethod (HARC harc, LPSTR buf, int size)
     return ERROR_HARC_ISNOT_OPENED;
   if (!info->m_is_valid)
     return ERROR_NOT_SEARCH_MODE;
-  const char *method = method_string (info->m_hd.Method);
+  const char *method = method_string (info->m_hde.Method);
   if (int (strlen (method)) >= size)
     return ERROR_BUF_TOO_SMALL;
   strcpy (buf, method);
@@ -492,7 +492,7 @@ UnrarGetOriginalSize (HARC harc)
 {
   IN_API (DWORD (-1), DWORD (-1));
   arcinfo *info = arcinfo::find (harc);
-  return info && info->m_is_valid && !info->m_hd.UnpSizeHigh ? info->m_hd.UnpSize : -1;
+  return info && info->m_is_valid && !info->m_hde.UnpSizeHigh ? info->m_hde.UnpSize : -1;
 }
 
 BOOL WINAPI
@@ -501,7 +501,7 @@ UnrarGetOriginalSizeEx (HARC harc, ULHA_INT64 *lpllSize)
   IN_API (DWORD (-1), DWORD (-1));
   arcinfo *info = arcinfo::find (harc);
   if (info && info->m_is_valid) {
-    *lpllSize = (ULHA_INT64)info->m_hd.UnpSizeHigh <<32 | (ULHA_INT64)info->m_hd.UnpSize;
+    *lpllSize = (ULHA_INT64)info->m_hde.UnpSizeHigh <<32 | (ULHA_INT64)info->m_hde.UnpSize;
     return TRUE;
   } else {
     return FALSE;
@@ -513,7 +513,7 @@ UnrarGetCompressedSize (HARC harc)
 {
   IN_API (DWORD (-1), DWORD (-1));
   arcinfo *info = arcinfo::find (harc);
-  return info && info->m_is_valid && !info->m_hd.PackSizeHigh ? info->m_hd.PackSize : -1;
+  return info && info->m_is_valid && !info->m_hde.PackSizeHigh ? info->m_hde.PackSize : -1;
 }
 
 BOOL WINAPI
@@ -522,7 +522,7 @@ UnrarGetCompressedSizeEx (HARC harc, ULHA_INT64 *lpllSize)
   IN_API (DWORD (-1), DWORD (-1));
   arcinfo *info = arcinfo::find (harc);
   if (info && info->m_is_valid) {
-    *lpllSize = (ULHA_INT64)info->m_hd.PackSizeHigh <<32 | (ULHA_INT64)info->m_hd.PackSize;
+    *lpllSize = (ULHA_INT64)info->m_hde.PackSizeHigh <<32 | (ULHA_INT64)info->m_hde.PackSize;
     return TRUE;
   } else {
     return FALSE;
@@ -535,8 +535,8 @@ UnrarGetRatio (HARC harc)
   IN_API (WORD (-1), WORD (-1));
   arcinfo *info = arcinfo::find (harc);
   return (info && info->m_is_valid
-          ? calc_ratio (info->m_hd.PackSizeHigh, info->m_hd.PackSize,
-                        info->m_hd.UnpSizeHigh, info->m_hd.UnpSize)
+          ? calc_ratio (info->m_hde.PackSizeHigh, info->m_hde.PackSize,
+                        info->m_hde.UnpSizeHigh, info->m_hde.UnpSize)
           : -1);
 }
 
@@ -545,7 +545,7 @@ UnrarGetDate (HARC harc)
 {
   IN_API (WORD (-1), WORD (-1));
   arcinfo *info = arcinfo::find (harc);
-  return info && info->m_is_valid ? HIWORD (info->m_hd.FileTime) : -1;
+  return info && info->m_is_valid ? HIWORD (info->m_hde.FileTime) : -1;
 }
 
 WORD WINAPI
@@ -553,7 +553,7 @@ UnrarGetTime (HARC harc)
 {
   IN_API (WORD (-1), WORD (-1));
   arcinfo *info = arcinfo::find (harc);
-  return info && info->m_is_valid ? LOWORD (info->m_hd.FileTime) : -1;
+  return info && info->m_is_valid ? LOWORD (info->m_hde.FileTime) : -1;
 }
 
 DWORD WINAPI
@@ -579,7 +579,7 @@ UnrarGetCRC (HARC harc)
 {
   IN_API (DWORD (-1), DWORD (-1));
   arcinfo *info = arcinfo::find (harc);
-  return info && info->m_is_valid ? info->m_hd.FileCRC : -1;
+  return info && info->m_is_valid ? info->m_hde.FileCRC : -1;
 }
 
 int WINAPI
@@ -587,7 +587,7 @@ UnrarGetAttribute (HARC harc)
 {
   IN_API (-1, -1);
   arcinfo *info = arcinfo::find (harc);
-  return info && info->m_is_valid ? info->m_hd.FileAttr : -1;
+  return info && info->m_is_valid ? info->m_hde.FileAttr : -1;
 }
 
 UINT WINAPI
@@ -597,7 +597,7 @@ UnrarGetOSType (HARC harc)
   arcinfo *info = arcinfo::find (harc);
   if (!info || !info->m_is_valid)
     return UINT (-1);
-  return os_type (info->m_hd.HostOS);
+  return os_type (info->m_hde.HostOS);
 }
 
 BOOL WINAPI
