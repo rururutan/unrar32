@@ -156,6 +156,7 @@ private:
 
 void init_table ();
 char *find_last_slash (const char *p);
+wchar_t *find_last_slash (const wchar_t *p);
 char *find_slash (const char *p);
 void slash2backsl (char *p);
 size_t strlcpy (char *d, const char *s, size_t n);

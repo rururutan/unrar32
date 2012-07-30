@@ -33,6 +33,7 @@ init_table ()
 }
 
 #define SEPCHAR_P(C) ((C) == '/' || (C) == '\\')
+#define SEPCHAR_PW(C) ((C) == L'/' || (C) == L'\\')
 
 char *
 find_last_slash (const char *p)
@@ -52,6 +53,19 @@ find_last_slash (const char *p)
         }
     }
   return (char *)x;
+}
+
+wchar_t *
+find_last_slash (const wchar_t *p)
+{
+  WORD *x = 0;
+  for (WORD *s = (WORD *)p; *s;)
+    {
+      if (SEPCHAR_PW (*s))
+        x = s;
+      s++;
+    }
+  return (wchar_t *)x;
 }
 
 char *

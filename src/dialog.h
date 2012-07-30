@@ -20,7 +20,7 @@
 
 struct replace_param
 {
-  const char *name;
+  const wchar_t *name;
   DWORD old_date;
   int64 old_size;
   DWORD new_date;
@@ -41,13 +41,13 @@ public:
   ~progress_dlg ()
     {if (m_hwnd) DestroyWindow (m_hwnd);}
   int create (HWND hwnd_parent);
-  int init (const char *path, unsigned maxl, unsigned maxh);
+  int init (const wchar_t *path, unsigned maxl, unsigned maxh);
   int update (const int64 &n) const;
   static INT_PTR CALLBACK progress_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
   BOOL wndproc (UINT msg, WPARAM wparam, LPARAM lparam);
 };
 
 wchar_t *askpass_dialog (HWND hwnd_parent);
-int change_vol_dialog (HWND hwnd_parent, char *path);
+int change_vol_dialog (HWND hwnd_parent, wchar_t *path);
 
 #endif

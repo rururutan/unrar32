@@ -58,8 +58,9 @@ arcinfo::~arcinfo ()
 bool
 arcinfo::open (const char *filename, DWORD mode)
 {
-  WIN32_FIND_DATA fd;
-  HANDLE h = FindFirstFile (filename, &fd);
+  WIN32_FIND_DATAW fd;
+  mb2wide fnamew(filename);
+  HANDLE h = FindFirstFileW (fnamew.getstring(), &fd);
   if (!h)
     return 0;
   FindClose (h);
@@ -79,7 +80,7 @@ arcinfo::open (const char *filename, DWORD mode)
   m_is_valid = false;
   m_is_eof = false;
 
-  rarOpenArchiveDataEx oade (filename, RAR_OM_LIST);
+  rarOpenArchiveDataEx oade (fnamew.getstring(), RAR_OM_LIST);
   m_hunrar = rarOpenArchiveEx (&oade);
   return m_hunrar != 0;
 }

@@ -72,7 +72,7 @@ private:
   EXTRACTINGINFOEX m_ex;
 
   int mkdirhier (const char *path);
-  int check_timestamp (const char *path, const rarHeaderDataEx &hde);
+  int check_timestamp (const wchar_t *path, const rarHeaderDataEx &hde);
   int parse_opt (int ac, char **av);
   int extract (rarData &rd, const char *path, const rarHeaderDataEx &hde,
                class progress_dlg &process);

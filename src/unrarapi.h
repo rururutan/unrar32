@@ -43,11 +43,11 @@ public:
       UserData = 0;
       ZeroMemory(Reserved, sizeof(Reserved));
     }
-  rarOpenArchiveDataEx (const char *path, int mode,
+  rarOpenArchiveDataEx (const wchar_t *path, int mode,
                         char *buf = 0, int size = 0)
     {
-      ArcName = (char *)path;
-      ArcNameW = 0;
+      ArcName = 0;
+      ArcNameW = (wchar_t *)path;
       CmtBuf = buf;
       CmtBufSize = size;
       OpenMode = mode;

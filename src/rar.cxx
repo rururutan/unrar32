@@ -345,7 +345,7 @@ private:
 class write_handle: public dyn_handle
 {
 public:
-  write_handle (const char *path)
+  write_handle (const wchar_t *path)
        : m_complete (false), m_delete_if_fail (false), m_path (path)
     {}
   ~write_handle ()
@@ -354,7 +354,7 @@ public:
         {
           close ();
           if (!m_complete && m_delete_if_fail)
-            DeleteFile (m_path);
+            DeleteFileW (m_path);
         }
     }
   void complete ()
@@ -374,7 +374,7 @@ public:
     }
   bool open ()
     {
-      attach (CreateFile (m_path, GENERIC_WRITE, 0, 0, OPEN_ALWAYS,
+      attach (CreateFileW (m_path, GENERIC_WRITE, 0, 0, OPEN_ALWAYS,
                           FILE_ATTRIBUTE_ARCHIVE | FILE_FLAG_SEQUENTIAL_SCAN, 0));
       if (!is_valid ())
         return false;
@@ -384,14 +384,14 @@ public:
 private:
   bool m_complete;
   bool m_delete_if_fail;
-  const char *m_path;
+  const wchar_t *m_path;
 };
 
 int
-UnRAR::check_timestamp (const char *path, const rarHeaderDataEx &hde)
+UnRAR::check_timestamp (const wchar_t *path, const rarHeaderDataEx &hde)
 {
-  WIN32_FIND_DATA fd;
-  HANDLE h = FindFirstFile (path, &fd);
+  WIN32_FIND_DATAW fd;
+  HANDLE h = FindFirstFileW (path, &fd);
   if (h != INVALID_HANDLE_VALUE)
     FindClose (h);
 
@@ -519,7 +519,7 @@ extract_helper (void *, u_char *data, int nbytes)
 }
 
 static int __cdecl
-change_volume (void *, char *path, int mode)
+change_volume (void *, wchar_t *path, int mode)
 {
   if (mode != RAR_VOL_ASK)
     return 1;
@@ -531,7 +531,9 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
   switch(msg)
     {
     case UCM_CHANGEVOLUME:
-      return change_volume(NULL,(char*)P1,(int)P2);
+      return change_volume(NULL,mb2wide((char*)P1).getstring(),(int)P2);
+    case UCM_CHANGEVOLUMEW:
+      return change_volume(NULL,(wchar_t*)P1,(int)P2);
     case UCM_PROCESSDATA:
       return extract_helper(NULL,(u_char*)P1,(int)P2);
     case UCM_NEEDPASSWORD:
@@ -587,7 +589,9 @@ int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
   switch(msg)
     {
     case UCM_CHANGEVOLUME:
-      return change_volume(NULL,(char*)P1,(int)P2);
+      return change_volume(NULL,mb2wide((char*)P1).getstring(),(int)P2);
+    case UCM_CHANGEVOLUMEW:
+      return change_volume(NULL,(wchar_t*)P1,(int)P2);
     case UCM_PROCESSDATA:
       return extract_helper(NULL,(u_char*)P1,(int)P2);
     case UCM_NEEDPASSWORD:
@@ -666,16 +670,17 @@ int
 UnRAR::extract (rarData &rd, const char *path, const rarHeaderDataEx &hde,
                 progress_dlg &progress)
 {
+  mb2wide pathw(path);
   if (progress.m_hwnd)
-    progress.init (path, hde.UnpSize, hde.UnpSizeHigh);
+    progress.init (pathw.getstring(), hde.UnpSize, hde.UnpSizeHigh);
 
-  int e = check_timestamp (path, hde);
+  int e = check_timestamp (pathw.getstring(), hde);
   if (e < 0)
     return canceled ();
   if (!e)
     return skip (rd, path);
 
-  write_handle w (path);
+  write_handle w (pathw.getstring());
   if (!w.open ())
     {
       format (IDS_CANNOT_CREATE, path);

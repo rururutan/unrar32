@@ -96,18 +96,18 @@ replace_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
       {
         center_window (hwnd);
         replace_param *rp = (replace_param *)lparam;
-        char *sl = find_last_slash (rp->name);
+        wchar_t *sl = find_last_slash (rp->name);
         if (sl)
           {
-            SetDlgItemText (hwnd, IDC_NAME, sl + 1);
+            SetDlgItemTextW (hwnd, IDC_NAME, sl + 1);
             *sl = 0;
-            SetDlgItemText (hwnd, IDC_PATH, rp->name);
-            *sl = '\\';
+            SetDlgItemTextW (hwnd, IDC_PATH, rp->name);
+            *sl = L'\\';
           }
         else
           {
-            SetDlgItemText (hwnd, IDC_NAME, rp->name);
-            SetDlgItemText (hwnd, IDC_PATH, "");
+            SetDlgItemTextW (hwnd, IDC_NAME, rp->name);
+            SetDlgItemTextW (hwnd, IDC_PATH, L"");
           }
         set_size (hwnd, IDC_OLDSIZE, rp->old_size);
         set_date (hwnd, IDC_OLDDATE, rp->old_date);
@@ -135,7 +135,7 @@ replace_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 INT_PTR
 replace_dialog (HWND hwnd_parent, const replace_param &rp)
 {
-  return DialogBoxParam (lstate.hinst, MAKEINTRESOURCE (IDD_REPLACE),
+  return DialogBoxParamW (lstate.hinst, MAKEINTRESOURCEW (IDD_REPLACE),
                          hwnd_parent, replace_dlgproc, LPARAM (&rp));
 }
 
@@ -208,7 +208,7 @@ set_prog_size (HWND hwnd, int id, const int64 &size, const int64 &total)
 }
 
 int
-progress_dlg::init (const char *path, unsigned maxl, unsigned maxh)
+progress_dlg::init (const wchar_t *path, unsigned maxl, unsigned maxh)
 {
   doevents ();
   if (!m_hwnd)
@@ -217,18 +217,18 @@ progress_dlg::init (const char *path, unsigned maxl, unsigned maxh)
   m_max_bytes.s.h = maxh;
   SendDlgItemMessage (m_hwnd, IDC_PROG, PBM_SETRANGE, 0, MAKELPARAM (0, PROGRESS_MAX));
   SendDlgItemMessage (m_hwnd, IDC_PROG, PBM_SETPOS, 0, 0);
-  char *sl = find_last_slash (path);
+  wchar_t *sl = find_last_slash (path);
   if (sl)
     {
       *sl = 0;
-      SetDlgItemText (m_hwnd, IDC_DSTPATH, path);
+      SetDlgItemTextW (m_hwnd, IDC_DSTPATH, path);
       *sl = '\\';
-      SetDlgItemText (m_hwnd, IDC_NAME, sl + 1);
+      SetDlgItemTextW (m_hwnd, IDC_NAME, sl + 1);
     }
   else
     {
-      SetDlgItemText (m_hwnd, IDC_DSTPATH, "");
-      SetDlgItemText (m_hwnd, IDC_NAME, path);
+      SetDlgItemTextW (m_hwnd, IDC_DSTPATH, L"");
+      SetDlgItemTextW (m_hwnd, IDC_NAME, path);
     }
   SetDlgItemText (m_hwnd, IDC_PERCENT, "  0%");
   int64 zero;
@@ -286,7 +286,7 @@ askpass_dialog (HWND hwnd_parent)
                     hwnd_parent, askpass_dlgproc) == IDOK ? passwd : 0;
 }
 
-static char *vol_name;
+static wchar_t *vol_name;
 
 static INT_PTR CALLBACK
 changevol_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -295,7 +295,7 @@ changevol_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
     {
     case WM_INITDIALOG:
       center_window (hwnd);
-      SetDlgItemText (hwnd, IDC_PATH, vol_name);
+      SetDlgItemTextW (hwnd, IDC_PATH, vol_name);
       return 1;
 
     case WM_COMMAND:
@@ -326,11 +326,11 @@ changevol_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 
         case IDOK:
           {
-            char buf[MAX_PATH];
-            GetDlgItemText (hwnd, IDC_PATH, buf, sizeof buf);
+            wchar_t buf[MAX_PATH];
+            GetDlgItemTextW (hwnd, IDC_PATH, buf, sizeof buf);
             if (!*buf)
               return 1;
-            strcpy (vol_name, buf);
+            wcscpy (vol_name, buf);
           }
           /* fall thru... */
         case IDCANCEL:
@@ -343,7 +343,7 @@ changevol_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 }
 
 int
-change_vol_dialog (HWND hwnd_parent, char *path)
+change_vol_dialog (HWND hwnd_parent, wchar_t *path)
 {
   vol_name = path;
   return (DialogBox (lstate.hinst, MAKEINTRESOURCE (IDD_CHANGEVOL),
