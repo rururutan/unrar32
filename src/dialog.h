@@ -47,7 +47,7 @@ public:
   BOOL wndproc (UINT msg, WPARAM wparam, LPARAM lparam);
 };
 
-char *askpass_dialog (HWND hwnd_parent);
+wchar_t *askpass_dialog (HWND hwnd_parent);
 int change_vol_dialog (HWND hwnd_parent, char *path);
 
 #endif

@@ -253,7 +253,7 @@ progress_dlg::update (const int64 &n) const
   return 1;
 }
 
-static char passwd[128];
+static wchar_t passwd[128];
 
 static INT_PTR CALLBACK
 askpass_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -268,7 +268,7 @@ askpass_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
       switch (LOWORD (wparam))
         {
         case IDOK:
-          GetDlgItemText (hwnd, IDC_PASSWD, passwd, sizeof passwd - 1);
+          GetDlgItemTextW (hwnd, IDC_PASSWD, passwd, sizeof passwd - 1);
           /* fall thru... */
         case IDCANCEL:
           EndDialog (hwnd, LOWORD (wparam));
@@ -279,10 +279,10 @@ askpass_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
   return 0;
 }
 
-char *
+wchar_t *
 askpass_dialog (HWND hwnd_parent)
 {
-  return DialogBox (lstate.hinst, MAKEINTRESOURCE (IDD_ASKPASSWD),
+  return DialogBoxW (lstate.hinst, MAKEINTRESOURCEW (IDD_ASKPASSWD),
                     hwnd_parent, askpass_dlgproc) == IDOK ? passwd : 0;
 }
 

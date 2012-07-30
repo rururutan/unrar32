@@ -157,6 +157,8 @@ UnRAR::parse_opt (int ac, char **av)
   m_opt = 0;
   m_type = UT_ASK;
   m_dest = "";
+  if (m_passwd)
+    delete [] m_passwd;
   m_passwd = 0;
   m_path = 0;
   m_security_level = 2;
@@ -233,9 +235,19 @@ UnRAR::parse_opt (int ac, char **av)
 
       case 'p':
         if (av[i][2])
-          m_passwd = &av[i][2];
+        {
+          mb2wide passw(&av[i][2]);
+          wchar_t *pass = new wchar_t[passw.getsize()];
+          wcsncpy(pass, passw.getstring(), passw.getsize());
+          m_passwd = pass;
+        }
         else if (++i < ac)
-          m_passwd = av[i];
+        {
+          mb2wide passw(av[i]);
+          wchar_t *pass = new wchar_t[passw.getsize()];
+          wcsncpy(pass, passw.getstring(), passw.getsize());
+          m_passwd = pass;
+        }
         else
           {
             format (IDS_OPTION_REQ_ARGS, 'p');
@@ -524,7 +536,7 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
       return extract_helper(NULL,(u_char*)P1,(int)P2);
     case UCM_NEEDPASSWORD:
       {
-        const char* pwd=NULL;
+        const wchar_t* pwd=NULL;
         rarData* prd=(rarData*)UserData;
         if(!prd)return -1;
         if(prd->can_ask_password){
@@ -535,10 +547,33 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
           }
         }
         if(pwd){
-          strncpy((char*)P1,pwd,P2);
+          wide2mb pwda(pwd);
+          strncpy((char*)P1,pwda.getstring(),P2);
         }else{
           prd->is_missing_password=true;
           *((char*)P1)='\0';
+          return -1;
+        }
+      }
+      return 0;
+    case UCM_NEEDPASSWORDW:
+      {
+        const wchar_t* pwd=NULL;
+        rarData* prd=(rarData*)UserData;
+        if(!prd)return -1;
+        if(prd->can_ask_password){
+          if(prd->pUserData){
+            pwd=((UnRAR*)prd->pUserData)->get_password();
+          }else{
+            pwd=askpass_dialog (0);
+          }
+        }
+        if(pwd){
+          wcsncpy((wchar_t*)P1,pwd,P2);
+          return 0;
+        }else{
+          prd->is_missing_password=true;
+          *((wchar_t*)P1)=L'\0';
           return -1;
         }
       }
@@ -557,17 +592,35 @@ int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
       return extract_helper(NULL,(u_char*)P1,(int)P2);
     case UCM_NEEDPASSWORD:
       {
-        const char* pwd=NULL;
+        const wchar_t* pwd=NULL;
         arcinfo* pInfo=(arcinfo*)UserData;
         if(!pInfo)return -1;
         if(!(pInfo->m_mode & M_ERROR_MESSAGE_OFF)){
           pwd=askpass_dialog (0);
         }
         if(pwd){
-          strncpy((char*)P1,pwd,P2);
+          wide2mb pwda(pwd);
+          strncpy((char*)P1,pwda.getstring(),P2);
         }else{
           pInfo->m_is_missing_password=true;
           *((char*)P1)='\0';
+          return -1;
+        }
+      }
+      return 0;
+    case UCM_NEEDPASSWORDW:
+      {
+        const wchar_t* pwd=NULL;
+        arcinfo* pInfo=(arcinfo*)UserData;
+        if(!pInfo)return -1;
+        if(!(pInfo->m_mode & M_ERROR_MESSAGE_OFF)){
+          pwd=askpass_dialog (0);
+        }
+        if(pwd){
+          wcsncpy((wchar_t*)P1,pwd,P2);
+        }else{
+          pInfo->m_is_missing_password=true;
+          *((wchar_t*)P1)=L'\0';
           return -1;
         }
       }
@@ -682,7 +735,7 @@ UnRAR::extract (rarData &rd, const char *path, const rarHeaderDataEx &hde,
   return 0;
 }
 
-const char* UnRAR::get_password()
+const wchar_t* UnRAR::get_password()
 {
   if (m_passwd) return m_passwd;
   else{
