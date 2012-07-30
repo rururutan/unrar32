@@ -73,18 +73,21 @@ bool
 file_executable_p (const char *path)
 {
   bool f = false;
-  FILE *fp = fopen (path, "rb");
-  if (fp)
-    {
-      IMAGE_DOS_HEADER dos;
-      IMAGE_NT_HEADERS nt;
-      f = (fread (&dos, sizeof dos, 1, fp) == 1
-           && dos.e_magic == IMAGE_DOS_SIGNATURE
-           && !fseek (fp, dos.e_lfanew, SEEK_SET)
-           && fread (&nt, sizeof nt, 1, fp) == 1
-           && nt.Signature == IMAGE_NT_SIGNATURE);
-      fclose (fp);
-    }
+  HANDLE hFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
+                            OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
+
+  if (hFile != INVALID_HANDLE_VALUE)
+  {
+    IMAGE_DOS_HEADER dos;
+    IMAGE_NT_HEADERS nt;
+    DWORD readsize;
+    f = (ReadFile(hFile, &dos, sizeof(dos), &readsize, NULL) == TRUE &&
+         dos.e_magic == IMAGE_DOS_SIGNATURE &&
+         SetFilePointer (hFile, dos.e_lfanew, NULL, FILE_BEGIN) == dos.e_lfanew &&
+         ReadFile(hFile, &nt, sizeof(nt), &readsize, NULL) == TRUE &&
+         nt.Signature == IMAGE_NT_SIGNATURE);
+    CloseHandle(hFile);
+  }
   return f;
 }
 
