@@ -49,3 +49,4 @@ EXPORTS
 	UnrarClearOwnerWindow		@91
 	UnrarSetOwnerWindowEx		@92
 	UnrarKillOwnerWindowEx		@93
+	UnrarSetUnicodeMode		@94

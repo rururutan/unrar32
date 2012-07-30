@@ -652,6 +652,9 @@ DllMain (HINSTANCE hinst, DWORD reason, VOID *)
   switch (reason)
     {
     case DLL_PROCESS_ATTACH:
+#ifdef _UTF8_SUPPORT
+      lstate.utf8_mode = false;
+#endif
       lstate.hinst = hinst;
       lstate.hrardll = load_rarapi ();
       init_table ();
@@ -665,4 +668,17 @@ DllMain (HINSTANCE hinst, DWORD reason, VOID *)
       break;
     }
   return 1;
+}
+
+BOOL WINAPI
+UnrarSetUnicodeMode(BOOL unicode)
+{
+  OutputDebugString( unicode ? "UnrarSetUnicodeMode on" :  "UnrarSetUnicodeMode off");
+#ifdef _UTF8_SUPPORT
+  IN_API (0, 0);
+  lstate.utf8_mode = unicode ? true : false;
+  return TRUE;
+#else
+  return FALSE;
+#endif
 }

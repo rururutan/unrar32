@@ -77,6 +77,7 @@ BOOL WINAPI UnrarSetOwnerWindow (HWND hwnd);
 BOOL WINAPI UnrarClearOwnerWindow ();
 BOOL WINAPI UnrarSetOwnerWindowEx (HWND hwnd, LPARCHIVERPROC proc);
 BOOL WINAPI UnrarKillOwnerWindowEx (HWND hwnd);
+BOOL WINAPI UnrarSetUnicodeMode(BOOL unicode);
 
 #ifdef __cplusplus
 }

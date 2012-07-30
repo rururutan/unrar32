@@ -36,6 +36,9 @@ struct lib_state
   bool has_callback;
   HWND hwnd_owner;
   LPARCHIVERPROC callback;
+#ifdef _UTF8_SUPPORT
+  bool utf8_mode;
+#endif
 };
 
 EXTERN lib_state lstate;
@@ -99,6 +102,56 @@ union int64
       unsigned long l;
       long h;
     } s;
+};
+
+class mb2wide
+{
+public:
+	mb2wide(const char *data) : utf16string(0), utf16len(0) {
+#ifdef _UTF8_SUPPORT
+		UINT codepage = (lstate.utf8_mode) ? CP_UTF8 : CP_THREAD_ACP;
+#else
+		UINT codepage = CP_THREAD_ACP;
+#endif
+		utf16len = ::MultiByteToWideChar(codepage, 0, data, -1, NULL, 0);
+		utf16string = new WCHAR[utf16len+1];
+		::ZeroMemory(utf16string, sizeof(WCHAR) * (utf16len+1));
+		::MultiByteToWideChar(codepage, 0, data, -1, utf16string, utf16len);
+	}
+	~mb2wide() {
+		delete [] utf16string;
+	}
+	int getsize() { return utf16len; }
+	LPWSTR getstring() { return utf16string; }
+
+private:
+	LPWSTR utf16string;
+	int utf16len;
+};
+
+class wide2mb
+{
+public:
+	wide2mb(const wchar_t *data) : ansistring(0), ansilen(0) {
+#ifdef _UTF8_SUPPORT
+		UINT codepage = (lstate.utf8_mode) ? CP_UTF8 : CP_THREAD_ACP;
+#else
+		UINT codepage = CP_THREAD_ACP;
+#endif
+		ansilen = ::WideCharToMultiByte(codepage, 0, data, -1, NULL, 0, NULL, NULL);
+		ansistring = new char[ansilen+1];
+		::ZeroMemory(ansistring, sizeof(char) * (ansilen+1));
+		::WideCharToMultiByte(codepage, 0, data, -1, ansistring, ansilen, NULL, NULL);
+	}
+	~wide2mb() {
+		delete [] ansistring;
+	}
+	int getsize() { return ansilen; }
+	char* getstring() { return ansistring; }
+
+private:
+	char* ansistring;
+	int ansilen;
 };
 
 void init_table ();
