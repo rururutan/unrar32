@@ -106,7 +106,7 @@ public:
     {}
   ~rarData ()
     {close ();}
-  bool open (const char *filename, int mode, char *buf = 0, int size = 0);
+  bool open (const wchar_t *filename, int mode, char *buf = 0, int size = 0);
   int close ();
   int read_header ()
     {return rarReadHeaderEx (h, &hde);}

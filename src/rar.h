@@ -46,11 +46,12 @@ public:
 public:
   int xmain (int argc, char **argv);
   UnRAR (HWND hwnd, ostrbuf &ostr)
-       : m_hwnd (hwnd), m_ostr (ostr), m_passwd (0)
+       : m_hwnd (hwnd), m_ostr (ostr), m_passwd (0), m_path(0)
     {}
   ~UnRAR ()
     {
       delete [] m_passwd;
+      delete [] m_path;
     }
 
   const wchar_t* get_password();
@@ -61,7 +62,7 @@ private:
   unrar_update_type m_type;
   int m_opt;
   int m_security_level;
-  const char *m_path;
+  const wchar_t *m_path;
   const char *m_dest;
   const wchar_t *m_passwd;
 

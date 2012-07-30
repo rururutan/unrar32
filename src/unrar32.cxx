@@ -141,7 +141,7 @@ UnrarCheckArchive (const char *path, int mode)
     mode = (mode & ~CHECKARCHIVE_MASK) | CHECKARCHIVE_BASIC;
 
   rarData rd;
-  if (!rd.open (path,
+  if (!rd.open (mb2wide(path).getstring(),
                 ((mode & CHECKARCHIVE_MASK) == CHECKARCHIVE_FULLCRC
                  ? RAR_OM_EXTRACT : RAR_OM_LIST)))
     return 0;
@@ -182,7 +182,7 @@ UnrarGetFileCount (const char *path)
   IN_API (-1, -1);
 
   rarData rd;
-  if (!rd.open (path, RAR_OM_LIST))
+  if (!rd.open (mb2wide(path).getstring(), RAR_OM_LIST))
     return -1;
 
   rarSetCallback(rd.h,rar_event_handler,(LPARAM)&rd);

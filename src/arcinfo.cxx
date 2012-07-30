@@ -135,7 +135,7 @@ arcinfo::findnext (INDIVIDUALINFO *vinfo, bool skip)
                                         m_hde.UnpSizeHigh, m_hde.UnpSize));
       vinfo->wDate = HIWORD (m_hde.FileTime);
       vinfo->wTime = LOWORD (m_hde.FileTime);
-      strlcpy (vinfo->szFileName, m_hde.FileName, sizeof vinfo->szFileName);
+      strlcpy (vinfo->szFileName, wide2mb(m_hde.FileNameW).getstring(), sizeof vinfo->szFileName);
       strcpy (vinfo->szAttribute, attr_string (m_hde.FileAttr));
       strcpy (vinfo->szMode, method_string (m_hde.Method));
     }

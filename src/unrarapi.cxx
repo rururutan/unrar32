@@ -43,10 +43,10 @@ load_rarapi ()
 }
 
 bool
-rarData::open (const char *filename, int mode, char *buf, int size)
+rarData::open (const wchar_t *filename, int mode, char *buf, int size)
 {
-  oade.ArcName = (char *)filename;
-  oade.ArcNameW = 0;
+  oade.ArcName = 0;
+  oade.ArcNameW = (wchar_t *)filename;
   oade.CmtBuf = buf;
   oade.CmtBufSize = size;
   oade.OpenMode = mode;

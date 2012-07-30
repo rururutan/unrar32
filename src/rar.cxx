@@ -160,6 +160,8 @@ UnRAR::parse_opt (int ac, char **av)
   if (m_passwd)
     delete [] m_passwd;
   m_passwd = 0;
+  if (m_path)
+    delete [] m_path;
   m_path = 0;
   m_security_level = 2;
 
@@ -295,7 +297,9 @@ optend:
       format (IDS_NO_ARCHIVE_FILE);
       return ERROR_NOT_ARC_FILE;
     }
-  m_path = av[i++];
+  mb2wide pathw(av[i++]);
+  m_path = new wchar_t[pathw.getsize()];
+  wcscpy( (wchar_t*)m_path, pathw.getstring() );
 
   if (i < ac)
     {
@@ -876,7 +880,7 @@ UnRAR::extract ()
   if (lstate.has_callback)
     {
       memset (&m_ex, 0, sizeof m_ex);
-      strlcpy (m_ex.exinfo.szSourceFileName, m_path, sizeof m_ex.exinfo.szSourceFileName);
+      strlcpy (m_ex.exinfo.szSourceFileName, wide2mb(m_path).getstring(), sizeof m_ex.exinfo.szSourceFileName);
       if (run_callback (ARCEXTRACT_OPEN, m_ex))
         return canceled ();
     }
