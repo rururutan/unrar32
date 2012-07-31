@@ -63,8 +63,8 @@ private:
   int m_opt;
   int m_security_level;
   const wchar_t *m_path;
-  const char *m_dest;
   const wchar_t *m_passwd;
+  wchar_t m_dest[FNAME_MAX32 + 1];
 
   HWND m_hwnd;
 
@@ -72,10 +72,10 @@ private:
   glob m_glob;
   EXTRACTINGINFOEX m_ex;
 
-  int mkdirhier (const char *path);
+  int mkdirhier (const wchar_t *path);
   int check_timestamp (const wchar_t *path, const rarHeaderDataEx &hde);
   int parse_opt (int ac, char **av);
-  int extract (rarData &rd, const char *path, const rarHeaderDataEx &hde,
+  int extract (rarData &rd, const wchar_t *path, const rarHeaderDataEx &hde,
                class progress_dlg &process);
   int extract ();
   int extract1 ();
@@ -84,14 +84,14 @@ private:
   int test ();
   int comment ();
 
-  int format (const char *fmt, ...) const;
+  int format (const wchar_t *fmt, ...) const;
   int format (int id, ...) const;
 
   int open_err (int e) const;
   int header_err (int e,const rarData &rd) const;
-  int process_err (int e,const char *path, const rarData &rd) const;
+  int process_err (int e,const wchar_t *path, const rarData &rd) const;
   int canceled () const;
-  int skip (rarData &rd, const char *path) const;
+  int skip (rarData &rd, const wchar_t *path) const;
 };
 
 //Callback for UnRAR.DLL

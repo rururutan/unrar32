@@ -170,7 +170,7 @@ UnrarCheckArchive (const char *path, int mode)
   }
 
   if (mode & CHECKARCHIVE_SFX
-      && file_executable_p (path))
+      && file_executable_p (mb2wide(path).getstring()))
     return 0x8000 + SFX_WIN32_UNKNOWN;
 
   return 1;
@@ -465,9 +465,9 @@ UnrarGetFileName (HARC harc, LPSTR buf, int size)
     return ERROR_HARC_ISNOT_OPENED;
   if (!info->m_is_valid)
     return ERROR_NOT_SEARCH_MODE;
-  if (int (strlen (info->m_hde.FileName)) >= size)
+  if (wide2mb(info->m_hde.FileNameW).getsize() >= size)
     return ERROR_BUF_TOO_SMALL;
-  strcpy (buf, info->m_hde.FileName);
+  strcpy (buf, wide2mb(info->m_hde.FileNameW).getstring());
   return 0;
 }
 

@@ -87,40 +87,52 @@ find_slash (const char *p)
   return 0;
 }
 
-void
-slash2backsl (char *p)
+wchar_t *
+find_slash (const wchar_t *p)
 {
-  for (; p = find_slash (p); *p++ = '\\')
+  for (WORD *s = (WORD *)p; *s;)
+    {
+      if (SEPCHAR_PW (*s))
+        return (wchar_t *)s;
+      s++;
+    }
+  return 0;
+}
+
+void
+slash2backsl (wchar_t *p)
+{
+  for (; p = find_slash (p); *p++ = L'\\')
     ;
 }
 
-char *
-trim_root (const char *path)
+wchar_t *
+trim_root (const wchar_t *path)
 {
-  const char *last;
+  const wchar_t *last;
   do
     {
       last = path;
-      for (; isalpha (u_char (*path)) && path[1] == ':'; path += 2)
+      for (; isalpha (u_char (*path)) && path[1] == L':'; path += 2)
         ;
-      for (; SEPCHAR_P (*path); path++)
+      for (; SEPCHAR_PW (*path); path++)
         ;
     }
   while (path != last);
-  return (char *)path;
+  return (wchar_t *)path;
 }
 
 void
-sanitize_path (char *path)
+sanitize_path (wchar_t *path)
 {
-  char *p = path;
-  char *b = path;
+  wchar_t *p = path;
+  wchar_t *b = path;
   for (;;)
     {
       p = trim_root (p);
       if (!*p)
         break;
-      if (*p == '.')
+      if (*p == L'.')
         {
           if (!p[1] || SEPCHAR_P (p[1]))
             {
@@ -140,10 +152,10 @@ sanitize_path (char *path)
                 }
               else
                 {
-                  char *q = p + 2;
+                  wchar_t *q = p + 2;
                   for (; *q == '.'; q++)
                     ;
-                  if (!*q || SEPCHAR_P (*q))
+                  if (!*q || SEPCHAR_PW (*q))
                     {
                       p = q;
                       continue;
@@ -151,7 +163,7 @@ sanitize_path (char *path)
                 }
             }
         }
-      while (*p && !SEPCHAR_P (*p))
+      while (*p && !SEPCHAR_PW (*p))
         *b++ = *p++;
       if (!*p++)
         break;
@@ -160,7 +172,7 @@ sanitize_path (char *path)
   *b = 0;
   for (p = path; p < b; p++)
     if (!*p)
-      *p = '\\';
+      *p = L'\\';
 }
 
 size_t
@@ -183,8 +195,8 @@ strlcpy (char *d, const char *s, size_t n)
   return i;
 }
 
-char *
-stpcpy (char *d, const char *s)
+wchar_t *
+stpcpy (wchar_t *d, const wchar_t *s)
 {
   int i;
   for (i = 0; (d[i] = s[i]); i++)
@@ -412,30 +424,35 @@ check_kanji_trail (const char *string, u_int off)
 }
 
 int
-ostrbuf::formatv (const char *fmt, va_list ap)
+ostrbuf::formatv (const wchar_t *fmt, va_list ap)
 {
   if (space () <= 0)
     return 0;
-  int l = _vsnprintf (m_buf, space (), fmt, ap);
+  int l = _vsnwprintf (m_bufp, space (), fmt, ap);
+  wide2mb bufa(m_bufp);
+  strncpy( m_buf, bufa.getstring(), space() );
   if (l > 0)
     {
-      m_buf += l;
-      m_size -= l;
+      m_buf += (bufa.getsize() - 1);
+      m_bufp += l;
+      m_size -= (bufa.getsize() - 1);
       *m_buf = 0;
+      *m_bufp = 0;
     }
   else
     {
       l = space ();
-      if (check_kanji_trail (m_buf, l))
-        l--;
+//      if (check_kanji_trail (m_buf, l))
+//        l--;
       m_buf[l] = 0;
+      m_bufp[l] = 0;
       m_size = 0;
     }
   return space () > 0;
 }
 
 int
-ostrbuf::format (const char *fmt, ...)
+ostrbuf::format (const wchar_t *fmt, ...)
 {
   va_list ap;
   va_start (ap, fmt);

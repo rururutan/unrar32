@@ -70,10 +70,10 @@ rarData::close ()
 }
 
 bool
-file_executable_p (const char *path)
+file_executable_p (const wchar_t *path)
 {
   bool f = false;
-  HANDLE hFile = CreateFile(path, GENERIC_READ, FILE_SHARE_READ, NULL,
+  HANDLE hFile = CreateFileW(path, GENERIC_READ, FILE_SHARE_READ, NULL,
                             OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, NULL);
 
   if (hFile != INVALID_HANDLE_VALUE)

@@ -72,7 +72,7 @@ arcinfo::open (const char *filename, DWORD mode)
   FileTimeToLocalFileTime (&fd.ftLastWriteTime, &lt);
   if (!FileTimeToDosDateTime (&lt, &m_arcdate, &m_arctime))
     m_arcdate = m_arctime = WORD (-1);
-  m_sfx = file_executable_p (filename) ? SFX_WIN32_UNKNOWN : 0;
+  m_sfx = file_executable_p (fnamew.getstring()) ? SFX_WIN32_UNKNOWN : 0;
 
   m_orig_sz.d = 0;
   m_comp_sz.d = 0;

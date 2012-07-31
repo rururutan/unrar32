@@ -84,13 +84,20 @@ class ostrbuf
 {
 public:
   ostrbuf (char *b, int size)
-       : m_buf (b), m_size (b ? size : 0) {}
-  int format (const char *fmt, ...);
-  int formatv (const char *fmt, va_list);
+       : m_buf (b), m_bufw(0), m_size (b ? size : 0)  {
+    m_bufw = new wchar_t[m_size*2+1];
+    m_bufp = m_bufw;
+    ZeroMemory( m_bufw, sizeof(wchar_t) * (m_size+1) );
+  }
+  ~ostrbuf() { delete m_bufw; }
+  int format (const wchar_t *fmt, ...);
+  int formatv (const wchar_t *fmt, va_list);
   int space () const
     {return m_size - 1;}
 private:
   char *m_buf;
+  wchar_t *m_bufw;
+  wchar_t *m_bufp;
   int m_size;
 };
 
@@ -158,10 +165,11 @@ void init_table ();
 char *find_last_slash (const char *p);
 wchar_t *find_last_slash (const wchar_t *p);
 char *find_slash (const char *p);
-void slash2backsl (char *p);
+wchar_t *find_slash (const wchar_t *p);
+void slash2backsl (wchar_t *p);
 size_t strlcpy (char *d, const char *s, size_t n);
-char *stpcpy (char *d, const char *s);
-char *trim_root (const char *path);
-void sanitize_path (char *path);
+wchar_t *stpcpy (wchar_t *d, const wchar_t *s);
+wchar_t *trim_root (const wchar_t *path);
+void sanitize_path (wchar_t *path);
 
 #endif

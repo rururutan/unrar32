@@ -119,7 +119,7 @@ public:
 };
 
 HINSTANCE load_rarapi ();
-bool file_executable_p (const char *path);
+bool file_executable_p (const wchar_t *path);
 int calc_ratio (u_long comp_sz_high, u_long comp_sz_low, u_long orig_sz_high, u_long orig_sz_low);
 union int64;
 int calc_ratio (const int64 &comp_sz, const int64 &orig_sz);

@@ -52,7 +52,7 @@ UnRAR::open_err (int e) const
 }
 
 int
-UnRAR::process_err (int e,const char *path, const rarData &rd) const
+UnRAR::process_err (int e,const wchar_t *path, const rarData &rd) const
 {
   switch (e)
     {
@@ -125,7 +125,7 @@ UnRAR::header_err (int e,const rarData &rd) const
 }
 
 int
-UnRAR::format (const char *fmt, ...) const
+UnRAR::format (const wchar_t *fmt, ...) const
 {
   va_list ap;
   va_start (ap, fmt);
@@ -137,9 +137,9 @@ UnRAR::format (const char *fmt, ...) const
 int
 UnRAR::format (int id, ...) const
 {
-  char fmt[1024];
-  if (!LoadString (lstate.hinst, id, fmt, sizeof fmt))
-    return format ("Unable to load message string: %d\n", id);
+  wchar_t fmt[1024];
+  if (!LoadStringW (lstate.hinst, id, fmt, sizeof fmt))
+    return format (L"Unable to load message string: %d\n", id);
   else
     {
       va_list ap;
@@ -156,7 +156,7 @@ UnRAR::parse_opt (int ac, char **av)
   m_cmd = C_NOTDEF;
   m_opt = 0;
   m_type = UT_ASK;
-  m_dest = "";
+  m_dest[0] = 0;
   if (m_passwd)
     delete [] m_passwd;
   m_passwd = 0;
@@ -299,15 +299,15 @@ optend:
     }
   mb2wide pathw(av[i++]);
   m_path = new wchar_t[pathw.getsize()];
-  wcscpy( (wchar_t*)m_path, pathw.getstring() );
+  wcscpy( const_cast<wchar_t*>(m_path), pathw.getstring() );
 
   if (i < ac)
     {
       char *sl = find_last_slash (av[i]);
       if (sl && !sl[1])
         {
-          m_dest = av[i++];
-          if (strlen (m_dest) >= FNAME_MAX32)
+          wcscpy(m_dest, mb2wide(av[i++]).getstring());
+          if (wcslen (m_dest) >= FNAME_MAX32)
             {
               format (IDS_FILE_NAME_TOO_LONG, m_dest);
               return ERROR_LONG_FILE_NAME;
@@ -462,7 +462,7 @@ struct extract_info
   HWND hwnd_owner;
   HANDLE h;
   const rarHeaderDataEx *hde;
-  const char *path;
+  const wchar_t *path;
   bool canceled;
   bool error;
   int64 nbytes;
@@ -639,12 +639,12 @@ int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
 
 static void
 init_exinfo (EXTRACTINGINFOEX &ex, const rarHeaderDataEx &hde,
-             const char *path)
+             const wchar_t *path)
 {
   ex.exinfo.dwFileSize = !hde.UnpSizeHigh ? hde.UnpSize : -1;
   ex.exinfo.dwWriteSize = 0;
-  strlcpy (ex.exinfo.szSourceFileName, hde.FileName, sizeof ex.exinfo.szSourceFileName);
-  strlcpy (ex.exinfo.szDestFileName, path, sizeof ex.exinfo.szDestFileName);
+  strlcpy (ex.exinfo.szSourceFileName, wide2mb(hde.FileNameW).getstring(), sizeof ex.exinfo.szSourceFileName);
+  strlcpy (ex.exinfo.szDestFileName, wide2mb(path).getstring(), sizeof ex.exinfo.szDestFileName);
   ex.dwCompressedSize = hde.PackSize;
   ex.dwCRC = hde.FileCRC;
   ex.uOSType = os_type (hde.HostOS);
@@ -663,7 +663,7 @@ UnRAR::canceled () const
 }
 
 int
-UnRAR::skip (rarData &rd, const char *path) const
+UnRAR::skip (rarData &rd, const wchar_t *path) const
 {
   format (IDS_SKIPPING, path);
   int e = rd.skip ();
@@ -671,20 +671,19 @@ UnRAR::skip (rarData &rd, const char *path) const
 }
 
 int
-UnRAR::extract (rarData &rd, const char *path, const rarHeaderDataEx &hde,
+UnRAR::extract (rarData &rd, const wchar_t *path, const rarHeaderDataEx &hde,
                 progress_dlg &progress)
 {
-  mb2wide pathw(path);
   if (progress.m_hwnd)
-    progress.init (pathw.getstring(), hde.UnpSize, hde.UnpSizeHigh);
+    progress.init (path, hde.UnpSize, hde.UnpSizeHigh);
 
-  int e = check_timestamp (pathw.getstring(), hde);
+  int e = check_timestamp (path, hde);
   if (e < 0)
     return canceled ();
   if (!e)
     return skip (rd, path);
 
-  write_handle w (pathw.getstring());
+  write_handle w (path);
   if (!w.open ())
     {
       format (IDS_CANNOT_CREATE, path);
@@ -739,7 +738,7 @@ UnRAR::extract (rarData &rd, const char *path, const rarHeaderDataEx &hde,
   DosDateTimeToFileTime (hde.FileTime >> 16, hde.FileTime, &lo);
   LocalFileTimeToFileTime (&lo, &ft);
   SetFileTime (w, 0, 0, &ft);
-  SetFileAttributes (path, hde.FileAttr);
+  SetFileAttributesW (path, hde.FileAttr);
 
   return 0;
 }
@@ -753,30 +752,30 @@ const wchar_t* UnRAR::get_password()
 }
 
 int
-UnRAR::mkdirhier (const char *path)
+UnRAR::mkdirhier (const wchar_t *path)
 {
-  if (CreateDirectory (path, 0))
+  if (CreateDirectoryW (path, 0))
     {
       format (IDS_CREATING, path);
       return 1;
     }
-  DWORD a = GetFileAttributes (path);
+  DWORD a = GetFileAttributesW (path);
   if (a != -1 && a & FILE_ATTRIBUTE_DIRECTORY)
     return 1;
-  char buf[FNAME_MAX32 + FRAR_PATH_MAX + 1];
-  strcpy (buf, path);
-  for (char *p = buf; p = find_slash (p); *p++ = '\\')
+  wchar_t buf[FNAME_MAX32 + FRAR_PATH_MAX + 1];
+  wcscpy (buf, path);
+  for (wchar_t *p = buf; p = find_slash (p); *p++ = L'\\')
     {
       *p = 0;
-      if (CreateDirectory (buf, 0))
+      if (CreateDirectoryW (buf, 0))
         format (IDS_CREATING, buf);
     }
-  if (CreateDirectory (path, 0))
+  if (CreateDirectoryW (path, 0))
     {
       format (IDS_CREATING, path);
       return 1;
     }
-  a = GetFileAttributes (path);
+  a = GetFileAttributesW (path);
   if (a != -1 && a & FILE_ATTRIBUTE_DIRECTORY)
     return 1;
   format (IDS_CANNOT_CREATE, path);
@@ -802,8 +801,8 @@ UnRAR::extract1 ()
   if (!lstate.has_callback && !(m_opt & O_QUIET))
     progress.create (m_hwnd);
 
-  char dest[FNAME_MAX32 + FRAR_PATH_MAX + 1];
-  char *de = stpcpy (dest, m_dest);
+  wchar_t dest[FNAME_MAX32 + FRAR_PATH_MAX + 1];
+  wchar_t *de = stpcpy (dest, const_cast<wchar_t*>(m_dest));
   slash2backsl (dest);
 
   int nerrors = 0;
@@ -821,21 +820,21 @@ UnRAR::extract1 ()
         {
           e = rd.skip ();
           if (e)
-            return process_err (e, rd.hde.FileName,rd);
+            return process_err (e, rd.hde.FileNameW,rd);
         }
       else
         {
-          const char *name = trim_root (rd.hde.FileName);
+          const wchar_t *name = trim_root (rd.hde.FileNameW);
           if (m_cmd == C_EXTRACT)
             {
-              strcpy (de, name);
+              wcscpy (de, name);
               if (m_security_level >= 2)
                 sanitize_path (de);
             }
           else
             {
-              char *sl = find_last_slash (name);
-              strcpy (de, sl ? sl + 1 : name);
+              wchar_t *sl = find_last_slash (name);
+              wcscpy (de, sl ? sl + 1 : name);
             }
           if (!*de)
             {
@@ -854,7 +853,7 @@ UnRAR::extract1 ()
             }
           else
             {
-              char *p = find_last_slash (dest);
+              wchar_t *p = find_last_slash (dest);
               if (p)
                 {
                   *p = 0;
@@ -912,8 +911,8 @@ UnRAR::list ()
   }
   rarSetCallback(rd.h,rar_event_handler,(LPARAM)&rd);
 
-  format ("  Name         Original   Packed  Ratio   Date     Time   Attr Method  CRC\n");
-  format ("-------------- -------- -------- ------ -------- -------- ---- ------- --------\n");
+  format (L"  Name         Original   Packed  Ratio   Date     Time   Attr Method  CRC\n");
+  format (L"-------------- -------- -------- ------ -------- -------- ---- ------- --------\n");
   int nfiles = 0;
   int64 org_sz, comp_sz;
   int e;
@@ -932,11 +931,11 @@ UnRAR::list ()
         {
           nfiles++;
           if (m_cmd == C_VLIST)
-            format ("%s\n%15c", rd.hde.FileName, ' ');
+            format (L"%s\n%15c", rd.hde.FileNameW, L' ');
           else
             {
-              char *p = find_last_slash (rd.hde.FileName);
-              format ("%-14s ", p ? p + 1 : rd.hde.FileName);
+              wchar_t *p = find_last_slash (rd.hde.FileNameW);
+              format (L"%-14s ", p ? p + 1 : rd.hde.FileNameW);
             }
           int ratio = calc_ratio (rd.hde.PackSizeHigh, rd.hde.PackSize,
                                   rd.hde.UnpSizeHigh, rd.hde.UnpSize);
@@ -947,33 +946,33 @@ UnRAR::list ()
           p.s.h = rd.hde.PackSizeHigh;
           org_sz.d += u.d;
           comp_sz.d += p.d;
-          format ("%8I64d %8I64d%c%3d.%d%%%c%02d-%02d-%02d %02d:%02d:%02d %s %-7s %08x\n",
+          format (L"%8I64d %8I64d%c%3d.%d%%%c%02d-%02d-%02d %02d:%02d:%02d %s %-7s %08x\n",
                   u, p,
-                  rd.hde.Flags & FRAR_PREVVOL ? '<' : ' ',
+                  rd.hde.Flags & FRAR_PREVVOL ? L'<' : L' ',
                   ratio / 10, ratio % 10,
-                  rd.hde.Flags & FRAR_NEXTVOL ? '>' : ' ',
+                  rd.hde.Flags & FRAR_NEXTVOL ? L'>' : L' ',
                   ((rd.hde.FileTime >> 25) + 80) % 100,
                   (rd.hde.FileTime >> 21) & 15,
                   (rd.hde.FileTime >> 16) & 31,
                   (rd.hde.FileTime >> 11) & 31,
                   (rd.hde.FileTime >> 5) & 63,
                   (rd.hde.FileTime & 31) * 2,
-                  attr_string (rd.hde.FileAttr),
-                  method_string (rd.hde.Method),
+                  mb2wide(attr_string (rd.hde.FileAttr)).getstring(),
+                  mb2wide(method_string (rd.hde.Method)).getstring(),
                   rd.hde.FileCRC);
         }
       e = rd.skip ();
       if (e)
-        return process_err (e, rd.hde.FileName,rd);
+        return process_err (e, rd.hde.FileNameW,rd);
     }
 
   if (nfiles)
     {
-      format ("-------------- -------- -------- ------\n");
-      char b[32];
-      sprintf (b, "%d File%s", nfiles, nfiles == 1 ? "" : "s");
+      format (L"-------------- -------- -------- ------\n");
+      wchar_t b[32];
+      swprintf (b, 32, L"%d File%s", nfiles, nfiles == 1 ? L"" : L"s");
       int ratio = calc_ratio (comp_sz, org_sz);
-      format ("%12s   %8I64d %8I64d %3d.%d%%\n",
+      format (L"%12s   %8I64d %8I64d %3d.%d%%\n",
               b, org_sz, comp_sz, ratio / 10, ratio % 10);
     }
   return 0;
