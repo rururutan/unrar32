@@ -25,11 +25,11 @@ init_table ()
   int i;
   for (i = 0; i < 256; i++)
     {
-      translate_table[i] = u_char (i);
+      translate_table[i] = u_short (i);
       mblead_table[i] = IsDBCSLeadByte (BYTE (i));
     }
-  for (i = 'a'; i <= 'z'; i++)
-    translate_table[i] = u_char (i - 'a' + 'A');
+  for (i = L'a'; i <= L'z'; i++)
+    translate_table[i] = u_short (i - L'a' + L'A');
 }
 
 #define SEPCHAR_P(C) ((C) == '/' || (C) == '\\')
@@ -61,30 +61,15 @@ find_last_slash (const wchar_t *p)
   WORD *x = 0;
   for (WORD *s = (WORD *)p; *s;)
     {
-      if (SEPCHAR_PW (*s))
-        x = s;
-      s++;
+      if (IS_HIGH_SURROGATE (*s) && s[1])
+        s += 2;
+      else {
+        if (SEPCHAR_PW (*s))
+          x = s;
+        s++;
+      }
     }
   return (wchar_t *)x;
-}
-
-char *
-find_slash (const char *p)
-{
-  for (u_char *s = (u_char *)p; *s;)
-    {
-#ifdef KANJI
-      if (iskanji (*s) && s[1])
-        s += 2;
-      else
-#endif
-        {
-          if (SEPCHAR_P (*s))
-            return (char *)s;
-          s++;
-        }
-    }
-  return 0;
 }
 
 wchar_t *
@@ -92,9 +77,13 @@ find_slash (const wchar_t *p)
 {
   for (WORD *s = (WORD *)p; *s;)
     {
-      if (SEPCHAR_PW (*s))
-        return (wchar_t *)s;
-      s++;
+      if (IS_HIGH_SURROGATE (*s) && s[1])
+        s += 2;
+      else {
+        if (SEPCHAR_PW (*s))
+          return (wchar_t *)s;
+        s++;
+      }
     }
   return 0;
 }
@@ -113,7 +102,7 @@ trim_root (const wchar_t *path)
   do
     {
       last = path;
-      for (; isalpha (u_char (*path)) && path[1] == L':'; path += 2)
+      for (; iswalpha (u_short (*path)) && path[1] == L':'; path += 2)
         ;
       for (; SEPCHAR_PW (*path); path++)
         ;
@@ -134,14 +123,14 @@ sanitize_path (wchar_t *path)
         break;
       if (*p == L'.')
         {
-          if (!p[1] || SEPCHAR_P (p[1]))
+          if (!p[1] || SEPCHAR_PW (p[1]))
             {
               p++;
               continue;
             }
-          if (p[1] == '.')
+          if (p[1] == L'.')
             {
-              if (!p[2] || SEPCHAR_P (p[2]))
+              if (!p[2] || SEPCHAR_PW (p[2]))
                 {
                   if (b > path)
                     b--;
@@ -153,7 +142,7 @@ sanitize_path (wchar_t *path)
               else
                 {
                   wchar_t *q = p + 2;
-                  for (; *q == '.'; q++)
+                  for (; *q == L'.'; q++)
                     ;
                   if (!*q || SEPCHAR_PW (*q))
                     {
@@ -181,7 +170,6 @@ strlcpy (char *d, const char *s, size_t n)
   if (!n)
     return strlen (s);
 
-  const char *src = s;
   n--;
   size_t i;
   for (i = 0; i < n && (d[i] = s[i]); i++)
@@ -307,10 +295,10 @@ cmdline::parse (const char *cmdline, size_t l, bool resp_ok)
 }
 
 bool
-glob::match (const char *pat, const char *str, bool recursive)
+glob::match (const wchar_t *pat, const wchar_t *str, bool recursive)
 {
-  const u_char *p = reinterpret_cast <const u_char *> (pat);
-  const u_char *s = reinterpret_cast <const u_char *> (str);
+  const u_short *p = reinterpret_cast <const u_short *> (pat);
+  const u_short *s = reinterpret_cast <const u_short *> (str);
 
   for (;;)
     {
@@ -318,82 +306,81 @@ glob::match (const char *pat, const char *str, bool recursive)
       switch (c)
         {
         case 0:
-          return !*s || (recursive && SEPCHAR_P (*s));
+          return !*s || (recursive && SEPCHAR_PW (*s));
 
-        case '?':
-          if (!*s || SEPCHAR_P (*s))
+        case L'?':
+          if (!*s || SEPCHAR_PW (*s))
             return false;
-#ifdef KANJI
-          if (iskanji (*s) && s[1])
-            s++;
-#endif
+          if (IS_HIGH_SURROGATE (*s) && s[1])
+            s ++;
           s++;
           break;
 
-        case '*':
-          for (; *p == '*'; p++)
+        case L'*':
+          for (; *p == L'*'; p++)
             ;
           if (!*p)
-            return recursive || !find_slash (reinterpret_cast <const char *> (s));
+            return recursive || !find_slash (reinterpret_cast <const wchar_t *> (s));
           for (;;)
             {
-              if (match (reinterpret_cast <const char *> (p),
-                         reinterpret_cast <const char *> (s),
+              if (match (reinterpret_cast <const wchar_t *> (p),
+                         reinterpret_cast <const wchar_t *> (s),
                          recursive))
                 return true;
-              if (!*s || SEPCHAR_P (*s))
+              if (!*s || SEPCHAR_PW (*s))
                 return false;
-#ifdef KANJI
-              if (iskanji (*s) && s[1])
-                s++;
-#endif
+              if (IS_HIGH_SURROGATE (*s) && s[1])
+                s ++;
               s++;
             }
 
-        case '/':
-        case '\\':
-          if (!SEPCHAR_P (*s))
+        case L'/':
+        case L'\\':
+          if (!SEPCHAR_PW (*s))
             return false;
           s++;
           break;
 
         default:
-#ifdef KANJI
-          if (iskanji (c) && *p)
-            {
-              if (u_char (c) != *s++)
-                return false;
-              if (*p++ != *s++)
-                return false;
-            }
-          else
-#endif
+          if (iswalpha (u_short (c)))
             {
               if (translate (c) != translate (*s))
                 return false;
               s++;
+            }
+          else
+            {
+              if (u_short (c) != *s++)
+                return false;
+              if (*p++ != *s++)
+                return false;
+              if (IS_HIGH_SURROGATE (*s)) {
+                if (*p++ != *s++)
+                  return false;
+              }
             }
         }
     }
 }
 
 bool
-glob::match (const char *file, bool strict, bool recursive) const
+glob::match (const wchar_t *file, bool strict, bool recursive) const
 {
   if (!m_npat)
     return true;
   if (strict)
     {
       for (int i = 0; i < m_npat; i++)
-        if (match (m_pat[i], file, recursive))
+        if (match (mb2wide(m_pat[i]).getstring(), file, recursive))
           return true;
     }
   else
     {
-      const char *name = find_last_slash (file);
+      const wchar_t *name = find_last_slash (file);
       name = name ? name + 1 : file;
       for (int i = 0; i < m_npat; i++)
-        if (match (m_pat[i], find_slash (m_pat[i]) ? file : name, false))
+        if (match (mb2wide(m_pat[i]).getstring(),
+                           find_slash (mb2wide(m_pat[i]).getstring()) ? file : name, false))
           return true;
     }
   return false;
@@ -412,16 +399,18 @@ glob::set_pattern (int ac, char **av)
     }
 }
 
+#if 0
 int
-check_kanji_trail (const char *string, u_int off)
+check_kanji_trail (const wchar_t *string, u_int off)
 {
-  const u_char *const s0 = reinterpret_cast <const u_char *> (string);
-  const u_char *const se = s0 + off;
-  const u_char *s = se;
-  for (; s-- > s0 && iskanji (*s);)
+  const u_short *const s0 = reinterpret_cast <const u_short *> (string);
+  const u_short *const se = s0 + off;
+  const u_short *s = se;
+  for (; s-- > s0 && IS_SURROGATE_PAIR(*s, *s[1]);)
     ;
   return !((se - s) & 1);
 }
+#endif
 
 int
 ostrbuf::formatv (const wchar_t *fmt, va_list ap)
@@ -442,8 +431,10 @@ ostrbuf::formatv (const wchar_t *fmt, va_list ap)
   else
     {
       l = space ();
-//      if (check_kanji_trail (m_buf, l))
-//        l--;
+#if 0
+      if (check_kanji_trail (m_buf, l))
+        l--;
+#endif
       m_buf[l] = 0;
       m_bufp[l] = 0;
       m_size = 0;

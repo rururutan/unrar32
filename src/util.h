@@ -20,7 +20,7 @@
 #define EXTERN extern
 #endif
 
-EXTERN u_char translate_table[256];
+EXTERN u_short translate_table[256];
 #define translate(c) (translate_table[(c) & 0xff])
 
 EXTERN u_char mblead_table[256];
@@ -69,15 +69,15 @@ private:
 class glob
 {
 public:
-  glob () : m_npat (0) {}
-  bool match (const char *filename, bool strict, bool recursive) const;
+  glob () : m_npat (0), m_pat(0) {}
+  bool match (const wchar_t *filename, bool strict, bool recursive) const;
   void set_pattern (int ac, char **av);
 
 private:
   int m_npat;
   char **m_pat;
 
-  static bool match (const char *pat, const char *str, bool recursive);
+  static bool match (const wchar_t *pat, const wchar_t *str, bool recursive);
 };
 
 class ostrbuf
@@ -89,7 +89,7 @@ public:
     m_bufp = m_bufw;
     ZeroMemory( m_bufw, sizeof(wchar_t) * (m_size+1) );
   }
-  ~ostrbuf() { delete m_bufw; }
+  ~ostrbuf() { delete [] m_bufw; }
   int format (const wchar_t *fmt, ...);
   int formatv (const wchar_t *fmt, va_list);
   int space () const
@@ -164,7 +164,6 @@ private:
 void init_table ();
 char *find_last_slash (const char *p);
 wchar_t *find_last_slash (const wchar_t *p);
-char *find_slash (const char *p);
 wchar_t *find_slash (const wchar_t *p);
 void slash2backsl (wchar_t *p);
 size_t strlcpy (char *d, const char *s, size_t n);

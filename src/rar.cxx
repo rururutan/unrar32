@@ -816,7 +816,7 @@ UnRAR::extract1 ()
           return e ? e : nerrors;
         }
 
-      if (!m_glob.match (rd.hde.FileName, (m_opt & O_STRICT) != 0, (m_opt & O_RECURSIVE) != 0))
+      if (!m_glob.match (rd.hde.FileNameW, (m_opt & O_STRICT) != 0, (m_opt & O_RECURSIVE) != 0))
         {
           e = rd.skip ();
           if (e)
@@ -927,7 +927,7 @@ UnRAR::list ()
             break;
           return header_err (e,rd);
         }
-      if (m_glob.match (rd.hde.FileName, (m_opt & O_STRICT) != 0, (m_opt & O_RECURSIVE) != 0))
+      if (m_glob.match (rd.hde.FileNameW, (m_opt & O_STRICT) != 0, (m_opt & O_RECURSIVE) != 0))
         {
           nfiles++;
           if (m_cmd == C_VLIST)

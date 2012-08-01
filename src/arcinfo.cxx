@@ -37,7 +37,8 @@ arcinfo::cleanup ()
 }
 
 arcinfo::arcinfo ()
-     : m_hunrar (0), m_prev (0), m_next (m_chain),m_is_missing_password(false)
+     : m_hunrar (0), m_prev (0), m_next (m_chain),m_is_missing_password(false),
+       m_is_eof (false) , m_is_valid (false)
 {
   if (m_next)
     m_next->m_prev = this;
@@ -116,7 +117,7 @@ arcinfo::findnext (INDIVIDUALINFO *vinfo, bool skip)
         }
       skip = true;
     }
-  while (!m_glob.match (m_hde.FileName, (m_mode & M_CHECK_ALL_PATH) != 0, 0));
+  while (!m_glob.match (m_hde.FileNameW, (m_mode & M_CHECK_ALL_PATH) != 0, 0));
 
   m_orig_sz.d += m_hde.UnpSize;
   m_orig_sz.s.h += m_hde.UnpSizeHigh;
