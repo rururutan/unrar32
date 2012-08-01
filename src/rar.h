@@ -55,7 +55,6 @@ public:
     }
 
   const wchar_t* get_password();
-  int CheckArchive(const char *path, int mode);
 
 private:
   unrar_cmd m_cmd;
