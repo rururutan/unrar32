@@ -303,10 +303,11 @@ optend:
 
   if (i < ac)
     {
-      char *sl = find_last_slash (av[i]);
+      mb2wide avw(av[i]);
+      wchar_t *sl = find_last_slash (avw.getstring());
       if (sl && !sl[1])
         {
-          wcscpy(m_dest, mb2wide(av[i++]).getstring());
+          wcscpy(m_dest, avw.getstring()); i++;
           if (wcslen (m_dest) >= FNAME_MAX32)
             {
               format (IDS_FILE_NAME_TOO_LONG, m_dest);
