@@ -104,7 +104,7 @@ arcinfo::findnext (INDIVIDUALINFO *vinfo, bool skip)
   do
     {
       if (m_is_eof
-          || (skip && rarProcessFile (m_hunrar, RAR_SKIP, 0, 0))
+          || (skip && rarProcessFileW (m_hunrar, RAR_SKIP, 0, 0))
           || rarReadHeaderEx (m_hunrar, &m_hde))
         {
           m_is_eof = true;

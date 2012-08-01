@@ -31,7 +31,7 @@ load_rarapi ()
     return 0;
   if ((rarOpenArchiveEx = RAROPENARCHIVEEX (GetProcAddress (h, "RAROpenArchiveEx")))
       && (rarCloseArchive = RARCLOSEARCHIVE (GetProcAddress (h, "RARCloseArchive")))
-      && (rarProcessFile = RARPROCESSFILE (GetProcAddress (h, "RARProcessFile")))
+      && (rarProcessFileW = RARPROCESSFILEW (GetProcAddress (h, "RARProcessFileW")))
       && (rarSetCallback = RARSETCALLBACK (GetProcAddress (h, "RARSetCallback")))
       && (rarReadHeaderEx = RARREADHEADEREX (GetProcAddress (h, "RARReadHeaderEx"))))
     {

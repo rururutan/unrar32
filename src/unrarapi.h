@@ -77,7 +77,7 @@ public:
 typedef HANDLE (__stdcall *RAROPENARCHIVEEX)(RAROpenArchiveDataEx *);
 typedef int (__stdcall *RARCLOSEARCHIVE)(HANDLE);
 typedef int (__stdcall *RARREADHEADEREX)(HANDLE, RARHeaderDataEx *);
-typedef int (__stdcall *RARPROCESSFILE)(HANDLE, int, char *, char *);
+typedef int (__stdcall *RARPROCESSFILEW)(HANDLE, int, wchar_t *, wchar_t *);
 typedef void (__stdcall *RARSETCALLBACK)(HANDLE,int (CALLBACK*)(UINT,LPARAM,LPARAM,LPARAM),LPARAM);
 
 #ifndef EXTERN
@@ -87,7 +87,7 @@ typedef void (__stdcall *RARSETCALLBACK)(HANDLE,int (CALLBACK*)(UINT,LPARAM,LPAR
 EXTERN RAROPENARCHIVEEX rarOpenArchiveEx;
 EXTERN RARCLOSEARCHIVE rarCloseArchive;
 EXTERN RARREADHEADEREX rarReadHeaderEx;
-EXTERN RARPROCESSFILE rarProcessFile;
+EXTERN RARPROCESSFILEW rarProcessFileW;
 EXTERN RARSETCALLBACK rarSetCallback;
 
 class rarData
@@ -111,11 +111,11 @@ public:
   int read_header ()
     {return rarReadHeaderEx (h, &hde);}
   int skip () const
-    {return rarProcessFile (h, RAR_SKIP, 0, 0);}
+    {return rarProcessFileW (h, RAR_SKIP, 0, 0);}
   int test () const
-    {return rarProcessFile (h, RAR_TEST, 0, 0);}
-  int extract (const char *path, const char *name) const
-    {return rarProcessFile (h, RAR_EXTRACT, (char *)path, (char *)name);}
+    {return rarProcessFileW (h, RAR_TEST, 0, 0);}
+  int extract (const wchar_t *path, const wchar_t *name) const
+    {return rarProcessFileW (h, RAR_EXTRACT, (wchar_t *)path, (wchar_t *)name);}
 };
 
 HINSTANCE load_rarapi ();
