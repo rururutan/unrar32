@@ -26,8 +26,9 @@ public:
   bool open (const char *path, int mode = FILE_FLAG_SEQUENTIAL_SCAN)
     {
       close ();
-      m_hf = CreateFile (path, GENERIC_READ, FILE_SHARE_READ, 0,
-                         OPEN_EXISTING, mode, 0);
+      mb2wide pathw(path);
+      m_hf = CreateFileW (pathw.getstring(), GENERIC_READ, FILE_SHARE_READ, 0,
+                          OPEN_EXISTING, mode, 0);
       if (m_hf == INVALID_HANDLE_VALUE)
         return false;
 
