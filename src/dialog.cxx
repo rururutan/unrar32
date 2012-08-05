@@ -253,7 +253,7 @@ progress_dlg::update (const int64 &n) const
   return 1;
 }
 
-static wchar_t passwd[128];
+static wchar_t passwd[1024];
 
 static INT_PTR CALLBACK
 askpass_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
