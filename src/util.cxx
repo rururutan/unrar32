@@ -42,8 +42,20 @@ find_last_slash (const char *p)
   for (u_char *s = (u_char *)p; *s;)
     {
 #ifdef KANJI
-      if (iskanji (*s) && s[1])
+      if (!lstate.utf8_mode && iskanji (*s) && s[1])
         s += 2;
+      else if (lstate.utf8_mode && (*s) & 0x80) {
+	    int inc = 0;
+		for (int i =0; i < 7; i++) {
+			if ((*s << i) & 0x80) {
+				inc += 1;
+			} else {
+				if (!inc) inc = 1;
+				break;
+			}
+		}
+		s += inc;
+      }
       else
 #endif
         {
@@ -61,7 +73,7 @@ find_last_slash (const wchar_t *p)
   WORD *x = 0;
   for (WORD *s = (WORD *)p; *s;)
     {
-      if (IS_HIGH_SURROGATE (*s) && s[1])
+      if (IS_HIGH_SURROGATE (*s) && IS_LOW_SURROGATE(s[1]))
         s += 2;
       else {
         if (SEPCHAR_PW (*s))
@@ -77,7 +89,7 @@ find_slash (const wchar_t *p)
 {
   for (WORD *s = (WORD *)p; *s;)
     {
-      if (IS_HIGH_SURROGATE (*s) && s[1])
+      if (IS_HIGH_SURROGATE (*s) && IS_LOW_SURROGATE(s[1]))
         s += 2;
       else {
         if (SEPCHAR_PW (*s))
@@ -342,22 +354,29 @@ glob::match (const wchar_t *pat, const wchar_t *str, bool recursive)
           break;
 
         default:
-          if (iswalpha (u_short (c)))
+          if (c < 0x100)
             {
+              if (!*s)
+                return false;
               if (translate (c) != translate (*s))
                 return false;
               s++;
             }
           else
             {
-              if (u_short (c) != *s++)
-                return false;
-              if (*p++ != *s++)
+              if (!*s)
                 return false;
               if (IS_HIGH_SURROGATE (*s)) {
-                if (*p++ != *s++)
+                if (c != *s++)
                   return false;
-              }
+                if (IS_LOW_SURROGATE (*s)) {
+                  if (*p++ != *s++)
+                    return false;
+                }
+              } else {
+                if (u_short (c) != *s++)
+                  return false;
+                }
             }
         }
     }
@@ -399,18 +418,18 @@ glob::set_pattern (int ac, char **av)
     }
 }
 
-#if 0
 int
-check_kanji_trail (const wchar_t *string, u_int off)
+check_kanji_trail (const char *string, u_int off)
 {
-  const u_short *const s0 = reinterpret_cast <const u_short *> (string);
-  const u_short *const se = s0 + off;
-  const u_short *s = se;
-  for (; s-- > s0 && IS_SURROGATE_PAIR(*s, *s[1]);)
-    ;
+  const u_char *const s0 = reinterpret_cast <const u_char *> (string);
+  const u_char *const se = s0 + off;
+  const u_char *s = se;
+  if (!lstate.utf8_mode) {
+     for (; s-- > s0 && iskanji (*s);)
+       ;
+  }
   return !((se - s) & 1);
 }
-#endif
 
 int
 ostrbuf::formatv (const wchar_t *fmt, va_list ap)
@@ -431,10 +450,8 @@ ostrbuf::formatv (const wchar_t *fmt, va_list ap)
   else
     {
       l = space ();
-#if 0
       if (check_kanji_trail (m_buf, l))
         l--;
-#endif
       m_buf[l] = 0;
       m_bufp[l] = 0;
       m_size = 0;

@@ -95,9 +95,9 @@ public:
   int space () const
     {return m_size - 1;}
 private:
-  char *m_buf;
-  wchar_t *m_bufw;
-  wchar_t *m_bufp;
+  char *m_buf;		// input data
+  wchar_t *m_bufw;	// for delete[]
+  wchar_t *m_bufp;	// current pointer
   int m_size;
 };
 
