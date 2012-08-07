@@ -544,7 +544,7 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
     case UCM_NEEDPASSWORD:
       {
         const wchar_t* pwd=NULL;
-        rarData* prd=(rarData*)UserData;
+        rarData* prd=reinterpret_cast<rarData*>(UserData);
         if(!prd)return -1;
         if(prd->can_ask_password){
           if(prd->pUserData){
@@ -566,7 +566,7 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
     case UCM_NEEDPASSWORDW:
       {
         const wchar_t* pwd=NULL;
-        rarData* prd=(rarData*)UserData;
+        rarData* prd=reinterpret_cast<rarData*>(UserData);
         if(!prd)return -1;
         if(prd->can_ask_password){
           if(prd->pUserData){
@@ -602,7 +602,7 @@ int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
     case UCM_NEEDPASSWORD:
       {
         const wchar_t* pwd=NULL;
-        arcinfo* pInfo=(arcinfo*)UserData;
+        arcinfo* pInfo=reinterpret_cast<arcinfo*>(UserData);
         if(!pInfo)return -1;
         if(!(pInfo->m_mode & M_ERROR_MESSAGE_OFF)){
           pwd=askpass_dialog (0);
@@ -620,7 +620,7 @@ int CALLBACK rar_openarc_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
     case UCM_NEEDPASSWORDW:
       {
         const wchar_t* pwd=NULL;
-        arcinfo* pInfo=(arcinfo*)UserData;
+        arcinfo* pInfo=reinterpret_cast<arcinfo*>(UserData);
         if(!pInfo)return -1;
         if(!(pInfo->m_mode & M_ERROR_MESSAGE_OFF)){
           pwd=askpass_dialog (0);
