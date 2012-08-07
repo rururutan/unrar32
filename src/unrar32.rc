@@ -1,4 +1,4 @@
-//Microsoft Developer Studio generated resource script.
+// Microsoft Visual C++ generated resource script.
 //
 #include "resource.h"
 
@@ -13,23 +13,21 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 日本語 resources
+// 日本語 (日本) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
-#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_REPLACE DIALOG DISCARDABLE  0, 0, 239, 155
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_REPLACE DIALOGEX 0, 0, 239, 155
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "既存のファイルを置き換えますか?"
-FONT 9, "MS UI Gothic"
+FONT 9, "ＭＳ Ｐゴシック", 400, 0, 0x80
 BEGIN
     ICON            "",IDC_Q,7,7,20,20
     LTEXT           "ファイル名:",IDC_STATIC,37,7,28,8
@@ -37,12 +35,12 @@ BEGIN
     LTEXT           "解凍先:",IDC_STATIC,37,29,23,8
     LTEXT           "",IDC_PATH,70,29,162,16,SS_NOPREFIX
     LTEXT           "既存のファイル:",IDC_STATIC,37,54,46,8
-    LTEXT           "サイズ:",IDC_STATIC,47,65,19,8
+    LTEXT           "サイズ:",IDC_STATIC,47,65,23,8
     LTEXT           "",IDC_OLDSIZE,81,65,151,8,SS_NOPREFIX
     LTEXT           "更新日時:",IDC_STATIC,47,76,30,8
     LTEXT           "",IDC_OLDDATE,81,76,151,8,SS_NOPREFIX
     LTEXT           "新しいファイル:",IDC_STATIC,37,89,44,8
-    LTEXT           "サイズ:",IDC_STATIC,47,100,19,8
+    LTEXT           "サイズ:",IDC_STATIC,47,100,25,8
     LTEXT           "",IDC_NEWSIZE,81,100,151,8,SS_NOPREFIX
     LTEXT           "更新日時:",IDC_STATIC,47,111,30,8
     LTEXT           "",IDC_NEWDATE,81,111,151,8,SS_NOPREFIX
@@ -52,43 +50,43 @@ BEGIN
     PUSHBUTTON      "キャンセル",IDCANCEL,180,134,50,14
 END
 
-IDD_INPROG DIALOG DISCARDABLE  0, 0, 187, 100
-STYLE DS_MODALFRAME | WS_POPUP
-FONT 9, "MS UI Gothic"
+IDD_INPROG DIALOGEX 0, 0, 201, 105
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
+CAPTION "解凍状況"
+FONT 9, "ＭＳ Ｐゴシック", 400, 0, 0x80
 BEGIN
-    LTEXT           "ファイル名:",IDC_STATIC,7,7,28,8
-    LTEXT           "",IDC_NAME,39,7,141,15,SS_NOPREFIX
-    LTEXT           "解凍先:",IDC_STATIC,7,25,23,8
-    LTEXT           "",IDC_DSTPATH,39,25,141,15,SS_NOPREFIX
-    LTEXT           "サイズ:",IDC_STATIC,7,43,19,8
-    LTEXT           "",IDC_FILESIZE,39,43,141,8,SS_NOPREFIX
-    LTEXT           "999%",IDC_PERCENT,7,62,15,8
-    CONTROL         "Progress1",IDC_PROG,"msctls_progress32",WS_BORDER,26,59,
-                    154,14
-    PUSHBUTTON      "キャンセル",IDCANCEL,66,79,50,14
+    LTEXT           "ファイル:",IDC_STATIC,9,8,30,9
+    LTEXT           "",IDC_NAME,39,8,155,10,SS_NOPREFIX
+    LTEXT           "解凍先:",IDC_STATIC,9,24,30,10
+    LTEXT           "",IDC_DSTPATH,39,23,155,10,SS_NOPREFIX
+    LTEXT           "サイズ:",IDC_STATIC,9,42,30,9
+    LTEXT           "",IDC_FILESIZE,39,41,155,10,SS_NOPREFIX
+    LTEXT           "999%",IDC_PERCENT,9,63,15,8
+    CONTROL         "Progress1",IDC_PROG,"msctls_progress32",WS_BORDER,29,60,154,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,75,84,50,14
 END
 
-IDD_ASKPASSWD DIALOG DISCARDABLE  0, 0, 177, 73
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ASKPASSWD DIALOGEX 0, 0, 182, 73
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "書庫は暗号化されています"
-FONT 9, "MS UI Gothic"
+FONT 9, "ＭＳ Ｐゴシック", 400, 0, 0x80
 BEGIN
-    LTEXT           "パスワード(&P):",IDC_STATIC,7,25,38,8
-    EDITTEXT        IDC_PASSWD,52,22,118,14,ES_PASSWORD | ES_AUTOHSCROLL
-    DEFPUSHBUTTON   "OK",IDOK,30,52,50,14
-    PUSHBUTTON      "キャンセル",IDCANCEL,96,52,50,14
+    LTEXT           "パスワード(&P):",IDC_STATIC,9,25,42,8
+    EDITTEXT        IDC_PASSWD,55,22,118,14,ES_PASSWORD | ES_AUTOHSCROLL
+    DEFPUSHBUTTON   "OK",IDOK,32,52,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,98,52,50,14
 END
 
-IDD_CHANGEVOL DIALOG DISCARDABLE  0, 0, 223, 61
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_CHANGEVOL DIALOGEX 0, 0, 226, 61
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "ボリュームの交換"
-FONT 9, "MS UI Gothic"
+FONT 9, "ＭＳ Ｐゴシック", 400, 0, 0x80
 BEGIN
-    LTEXT           "ファイル名(&F):",IDC_STATIC,7,16,37,8
-    EDITTEXT        IDC_PATH,52,13,149,14,ES_AUTOHSCROLL
-    PUSHBUTTON      "...",IDC_REF,204,13,12,14
-    DEFPUSHBUTTON   "OK",IDOK,53,40,50,14
-    PUSHBUTTON      "キャンセル",IDCANCEL,119,40,50,14
+    LTEXT           "ファイル名(&F):",IDC_STATIC,10,16,40,8
+    EDITTEXT        IDC_PATH,54,13,149,14,ES_AUTOHSCROLL
+    PUSHBUTTON      "...",IDC_REF,205,13,12,14
+    DEFPUSHBUTTON   "OK",IDOK,56,40,50,14
+    PUSHBUTTON      "キャンセル",IDCANCEL,122,40,50,14
 END
 
 
@@ -98,7 +96,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_REPLACE, DIALOG
     BEGIN
@@ -111,15 +109,15 @@ BEGIN
     IDD_INPROG, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 180
+        RIGHTMARGIN, 194
         TOPMARGIN, 7
-        BOTTOMMARGIN, 93
+        BOTTOMMARGIN, 98
     END
 
     IDD_ASKPASSWD, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 170
+        RIGHTMARGIN, 175
         TOPMARGIN, 6
         BOTTOMMARGIN, 66
     END
@@ -127,7 +125,7 @@ BEGIN
     IDD_CHANGEVOL, DIALOG
     BEGIN
         LEFTMARGIN, 7
-        RIGHTMARGIN, 216
+        RIGHTMARGIN, 219
         TOPMARGIN, 7
         BOTTOMMARGIN, 54
     END
@@ -141,18 +139,18 @@ END
 // TEXTINCLUDE
 //
 
-1 TEXTINCLUDE DISCARDABLE 
+1 TEXTINCLUDE 
 BEGIN
     "resource.h\0"
 END
 
-2 TEXTINCLUDE DISCARDABLE 
+2 TEXTINCLUDE 
 BEGIN
     "#include ""afxres.h""\r\n"
     "\0"
 END
 
-3 TEXTINCLUDE DISCARDABLE 
+3 TEXTINCLUDE 
 BEGIN
     "\r\n"
     "\0"
@@ -161,15 +159,14 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,12,0
- PRODUCTVERSION 0,0,12,0
+ FILEVERSION 0,0,13,0
+ PRODUCTVERSION 0,0,13,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -184,18 +181,16 @@ BEGIN
     BEGIN
         BLOCK "041104b0"
         BEGIN
-            VALUE "Comments", "Common Archiver Project's UNRAR32.DLL\0"
-            VALUE "CompanyName", "Free software\0"
-            VALUE "FileDescription", "UNRAR32\0"
-            VALUE "FileVersion", "0, 0, 12, 0\0"
-            VALUE "InternalName", "unrar32\0"
-            VALUE "LegalCopyright", "Copyright (C) 1998-2004 T. Kamei\0"
-            VALUE "LegalTrademarks", "Common Archiver Project\0"
-            VALUE "OriginalFilename", "unrar32.dll\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "UNRAR32 Dynamic Link Library\0"
-            VALUE "ProductVersion", "0, 0, 12, 0\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "Comments", "Common Archiver Project's UNRAR32.DLL"
+            VALUE "CompanyName", "Free software"
+            VALUE "FileDescription", "UNRAR32"
+            VALUE "FileVersion", "0.0.13.0"
+            VALUE "InternalName", "unrar32"
+            VALUE "LegalCopyright", "Copyright (C) 1998-2004 T. Kamei"
+            VALUE "LegalTrademarks", "Common Archiver Project"
+            VALUE "OriginalFilename", "unrar32.dll"
+            VALUE "ProductName", "UNRAR32 Dynamic Link Library"
+            VALUE "ProductVersion", "0.0.13.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -204,15 +199,13 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_NOT_ENOUGH_MEMORY   "メモリが不足しています"
     IDS_ARCHIVE_HEADER_BROKEN "アーカイブヘッダが壊れています: %s\n"
@@ -220,8 +213,7 @@ BEGIN
     IDS_FILE_OPEN_ERROR     "ファイルがオープンできません: %s\n"
     IDS_UNDOCUMENTED        "不明なUnRAR.DLLのエラーです: %d: %s\n"
     IDS_CRC_ERROR           "CRCエラー: %s\n"
-    IDS_NOT_VALID_RAR_VOLUME 
-                            "有効なRARアーカイブのボリュームではありません: %s\n"
+    IDS_NOT_VALID_RAR_VOLUME "有効なRARアーカイブのボリュームではありません: %s\n"
     IDS_UNKNOWN_ARCHIVE_FORMAT "不明なアーカイブフォーマットです: %s\n"
     IDS_VOLUME_OPEN         "ボリュームがオープンできません: %s\n"
     IDS_FILE_CREATE_ERROR   "ファイルが作成できません: %s\n"
@@ -232,7 +224,7 @@ BEGIN
     IDS_NO_ARCHIVE_FILE     "アーカイブファイルが指定されていません\n"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_UNRECOGNIZED_OPTION "認識できないオプションです: `-%c'\n"
     IDS_OPTION_REQ_ARGS     "`-%c'には引数が必要です\n"
@@ -251,33 +243,31 @@ BEGIN
     IDS_EXTRACTING          "Extracting %s\n"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_UNRAR_NOT_LOADED    "UnRAR.DLLがロードできません"
     IDS_FILTER              "すべてのファイル|*.*|"
     IDS_INVALID_SECURITY_LEVEL "不正なセキュリティレベルです: %c\n"
 END
 
-#endif    // 日本語 resources
+#endif    // 日本語 (日本) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
 /////////////////////////////////////////////////////////////////////////////
-// 英語 (ｱﾒﾘｶ) resources
+// 英語 (米国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
-#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
-#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_ASKPASSWD DIALOG DISCARDABLE  0, 0, 199, 74
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_ASKPASSWD DIALOG 0, 0, 199, 74
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Encrypted archive"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -287,8 +277,8 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,105,54,52,13
 END
 
-IDD_CHANGEVOL DIALOG DISCARDABLE  0, 0, 223, 61
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_CHANGEVOL DIALOG 0, 0, 223, 61
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Change volume"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -299,9 +289,9 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,119,40,50,14
 END
 
-IDD_INPROG DIALOG DISCARDABLE  0, 0, 187, 102
-STYLE DS_MODALFRAME | WS_POPUP
-FONT 8, "MS Sans Serif"
+IDD_INPROG DIALOGEX 0, 0, 187, 102
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION
+FONT 8, "MS Sans Serif", 0, 0, 0x0
 BEGIN
     LTEXT           "Name:",IDC_STATIC,7,7,20,8
     LTEXT           "",IDC_NAME,33,7,147,15,SS_NOPREFIX
@@ -310,13 +300,12 @@ BEGIN
     LTEXT           "Size:",IDC_STATIC,7,43,16,8
     LTEXT           "",IDC_FILESIZE,33,43,147,8,SS_NOPREFIX
     LTEXT           "999%",IDC_PERCENT,7,64,17,8
-    CONTROL         "Progress1",IDC_PROG,"msctls_progress32",WS_BORDER,28,61,
-                    152,14
+    CONTROL         "Progress1",IDC_PROG,"msctls_progress32",WS_BORDER,28,61,152,14
     PUSHBUTTON      "Cancel",IDCANCEL,66,81,50,14
 END
 
-IDD_REPLACE DIALOG DISCARDABLE  0, 0, 239, 155
-STYLE DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
+IDD_REPLACE DIALOG 0, 0, 239, 155
+STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Overwrite existing file?"
 FONT 8, "MS Sans Serif"
 BEGIN
@@ -348,7 +337,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO DISCARDABLE 
+GUIDELINES DESIGNINFO
 BEGIN
     IDD_ASKPASSWD, DIALOG
     BEGIN
@@ -385,15 +374,14 @@ END
 #endif    // APSTUDIO_INVOKED
 
 
-#ifndef _MAC
 /////////////////////////////////////////////////////////////////////////////
 //
 // Version
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,12,0
- PRODUCTVERSION 0,0,12,0
+ FILEVERSION 0,0,13,0
+ PRODUCTVERSION 0,0,13,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -408,18 +396,16 @@ BEGIN
     BEGIN
         BLOCK "040904b0"
         BEGIN
-            VALUE "Comments", "Common Archiver Project's UNRAR32.DLL\0"
-            VALUE "CompanyName", "Free software\0"
-            VALUE "FileDescription", "UNRAR32\0"
-            VALUE "FileVersion", "0, 0, 12, 0\0"
-            VALUE "InternalName", "unrar32\0"
-            VALUE "LegalCopyright", "Copyright ｩ 1998-2004 T. Kamei\0"
-            VALUE "LegalTrademarks", "Common Archiver Project\0"
-            VALUE "OriginalFilename", "unrar32.dll\0"
-            VALUE "PrivateBuild", "\0"
-            VALUE "ProductName", "UNRAR32 Dynamic Link Library\0"
-            VALUE "ProductVersion", "0, 0, 12, 0\0"
-            VALUE "SpecialBuild", "\0"
+            VALUE "Comments", "Common Archiver Project's UNRAR32.DLL"
+            VALUE "CompanyName", "Free software"
+            VALUE "FileDescription", "UNRAR32"
+            VALUE "FileVersion", "0.0.13.0"
+            VALUE "InternalName", "unrar32"
+            VALUE "LegalCopyright", "Copyright ｩ 1998-2004 T. Kamei"
+            VALUE "LegalTrademarks", "Common Archiver Project"
+            VALUE "OriginalFilename", "unrar32.dll"
+            VALUE "ProductName", "UNRAR32 Dynamic Link Library"
+            VALUE "ProductVersion", "0.0.13.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -428,15 +414,13 @@ BEGIN
     END
 END
 
-#endif    // !_MAC
-
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // String Table
 //
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_NOT_ENOUGH_MEMORY   "Not enough memory\n"
     IDS_ARCHIVE_HEADER_BROKEN "Archive header broken: %s\n"
@@ -455,7 +439,7 @@ BEGIN
     IDS_NO_ARCHIVE_FILE     "No archive files specified\n"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_UNRECOGNIZED_OPTION "Unrecognized option: `-%c'\n"
     IDS_OPTION_REQ_ARGS     "`-%c' requires an argument\n"
@@ -474,14 +458,14 @@ BEGIN
     IDS_EXTRACTING          "Extracting %s\n"
 END
 
-STRINGTABLE DISCARDABLE 
+STRINGTABLE
 BEGIN
     IDS_UNRAR_NOT_LOADED    "Unable to load UnRAR.DLL"
     IDS_FILTER              "All Files|*.*|"
     IDS_INVALID_SECURITY_LEVEL "Invalid security level: %c\n"
 END
 
-#endif    // 英語 (ｱﾒﾘｶ) resources
+#endif    // 英語 (米国) resources
 /////////////////////////////////////////////////////////////////////////////
 
 
