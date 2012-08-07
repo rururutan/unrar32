@@ -114,51 +114,51 @@ union int64
 class mb2wide
 {
 public:
-	mb2wide(const char *data) : utf16string(0), utf16len(0) {
+  mb2wide(const char *data) : utf16string(0), utf16len(0) {
 #ifdef _UTF8_SUPPORT
-		UINT codepage = (lstate.utf8_mode) ? CP_UTF8 : CP_THREAD_ACP;
+    UINT codepage = (lstate.utf8_mode) ? CP_UTF8 : CP_THREAD_ACP;
 #else
-		UINT codepage = CP_THREAD_ACP;
+    UINT codepage = CP_THREAD_ACP;
 #endif
-		utf16len = ::MultiByteToWideChar(codepage, 0, data, -1, NULL, 0);
-		utf16string = new WCHAR[utf16len+1];
-		::ZeroMemory(utf16string, sizeof(WCHAR) * (utf16len+1));
-		::MultiByteToWideChar(codepage, 0, data, -1, utf16string, utf16len);
-	}
-	~mb2wide() {
-		delete [] utf16string;
-	}
-	int getsize() { return utf16len; }
-	LPWSTR getstring() { return utf16string; }
+    utf16len = ::MultiByteToWideChar(codepage, 0, data, -1, NULL, 0);
+    utf16string = new WCHAR[utf16len+1];
+    ::ZeroMemory(utf16string, sizeof(WCHAR) * (utf16len+1));
+    ::MultiByteToWideChar(codepage, 0, data, -1, utf16string, utf16len);
+  }
+  ~mb2wide() {
+    delete [] utf16string;
+  }
+  int getsize() { return utf16len; }
+  LPWSTR getstring() { return utf16string; }
 
 private:
-	LPWSTR utf16string;
-	int utf16len;
+  LPWSTR utf16string;
+  int utf16len;
 };
 
 class wide2mb
 {
 public:
-	wide2mb(const wchar_t *data) : ansistring(0), ansilen(0) {
+  wide2mb(const wchar_t *data) : mbstring(0), mblen(0) {
 #ifdef _UTF8_SUPPORT
-		UINT codepage = (lstate.utf8_mode) ? CP_UTF8 : CP_THREAD_ACP;
+    UINT codepage = (lstate.utf8_mode) ? CP_UTF8 : CP_THREAD_ACP;
 #else
-		UINT codepage = CP_THREAD_ACP;
+    UINT codepage = CP_THREAD_ACP;
 #endif
-		ansilen = ::WideCharToMultiByte(codepage, 0, data, -1, NULL, 0, NULL, NULL);
-		ansistring = new char[ansilen+1];
-		::ZeroMemory(ansistring, sizeof(char) * (ansilen+1));
-		::WideCharToMultiByte(codepage, 0, data, -1, ansistring, ansilen, NULL, NULL);
-	}
-	~wide2mb() {
-		delete [] ansistring;
-	}
-	int getsize() { return ansilen; }
-	char* getstring() { return ansistring; }
+    mblen = ::WideCharToMultiByte(codepage, 0, data, -1, NULL, 0, NULL, NULL);
+    mbstring = new char[mblen+1];
+    ::ZeroMemory(mbstring, sizeof(char) * (mblen+1));
+    ::WideCharToMultiByte(codepage, 0, data, -1, mbstring, mblen, NULL, NULL);
+  }
+  ~wide2mb() {
+    delete [] mbstring;
+  }
+  int getsize() { return mblen; }
+  char* getstring() { return mbstring; }
 
 private:
-	char* ansistring;
-	int ansilen;
+  char* mbstring;
+  int mblen;
 };
 
 void init_table ();

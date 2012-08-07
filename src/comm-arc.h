@@ -91,11 +91,11 @@ typedef struct
   EXTRACTINGINFOEX, FAR *LPEXTRACTINGINFOEX;
 
 #if !defined(__BORLANDC__) || __BORLANDC__ >= 0x550
-typedef LONGLONG	ULHA_INT64;
+typedef LONGLONG ULHA_INT64;
 #else
 typedef struct {
-	DWORD	LowPart;
-	LONG	HighPart;
+  DWORD LowPart;
+  LONG  HighPart;
 } ULHA_INT64, *LPULHA_INT64;
 #endif
 

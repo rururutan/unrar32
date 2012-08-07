@@ -45,16 +45,16 @@ find_last_slash (const char *p)
       if (!lstate.utf8_mode && iskanji (*s) && s[1])
         s += 2;
       else if (lstate.utf8_mode && (*s) & 0x80) {
-	    int inc = 0;
-		for (int i =0; i < 7; i++) {
-			if ((*s << i) & 0x80) {
-				inc += 1;
-			} else {
-				if (!inc) inc = 1;
-				break;
-			}
-		}
-		s += inc;
+        int inc = 0;
+        for (int i =0; i < 7; i++) {
+          if ((*s << i) & 0x80) {
+            inc += 1;
+          } else {
+            if (!inc) inc = 1;
+              break;
+          }
+        }
+        s += inc;
       }
       else
 #endif

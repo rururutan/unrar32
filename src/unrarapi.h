@@ -38,7 +38,7 @@ public:
       ArcNameW = 0;
       CmtBuf = buf;
       CmtBufSize = size;
-	  OpenMode = 0;
+      OpenMode = 0;
       Callback = 0;
       UserData = 0;
       ZeroMemory(Reserved, sizeof(Reserved));

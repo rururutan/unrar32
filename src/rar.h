@@ -40,13 +40,14 @@ public:
       O_YES = 2,
       O_STRICT = 8,
       O_QUIET = 16,
-	  O_NOT_ASK_PASSWORD = 32,
+      O_NOT_ASK_PASSWORD = 32,
     };
 
 public:
   int xmain (int argc, char **argv);
   UnRAR (HWND hwnd, ostrbuf &ostr)
-       : m_hwnd (hwnd), m_ostr (ostr), m_passwd (0), m_path(0)
+       : m_hwnd (hwnd), m_ostr (ostr), m_passwd (0), m_path(0), m_opt(0),
+         m_security_level(2)
     {}
   ~UnRAR ()
     {

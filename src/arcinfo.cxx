@@ -38,11 +38,13 @@ arcinfo::cleanup ()
 
 arcinfo::arcinfo ()
      : m_hunrar (0), m_prev (0), m_next (m_chain),m_is_missing_password(false),
-       m_is_eof (false) , m_is_valid (false)
+       m_is_eof (false) , m_is_valid (false), m_sfx (0),
+       m_arcdate(-1), m_arctime(-1), m_is_first_time (true)
 {
   if (m_next)
     m_next->m_prev = this;
   m_chain = this;
+  memset(m_arcpath, 0, sizeof(m_arcpath));
 }
 
 arcinfo::~arcinfo ()
