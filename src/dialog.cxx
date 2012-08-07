@@ -95,7 +95,7 @@ replace_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
     case WM_INITDIALOG:
       {
         center_window (hwnd);
-        replace_param *rp = (replace_param *)lparam;
+        replace_param *rp = reinterpret_cast<replace_param *>(lparam);
         wchar_t *sl = find_last_slash (rp->name);
         if (sl)
           {
@@ -157,11 +157,11 @@ progress_dlg::progress_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
   if (msg == WM_INITDIALOG)
     {
       SetWindowLongPtr (hwnd, DWLP_USER, lparam);
-      p = (progress_dlg *)lparam;
+      p = reinterpret_cast<progress_dlg *>(lparam);
       p->m_hwnd = hwnd;
     }
   else
-    p = (progress_dlg *)GetWindowLongPtr (hwnd, DWLP_USER);
+    p = reinterpret_cast<progress_dlg *>(GetWindowLongPtr (hwnd, DWLP_USER));
   return p ? p->wndproc (msg, wparam, lparam) : 0;
 }
 
@@ -189,7 +189,7 @@ progress_dlg::wndproc (UINT msg, WPARAM wparam, LPARAM lparam)
 int
 progress_dlg::create (HWND hwnd_parent)
 {
-  if (!CreateDialogParam (lstate.hinst, MAKEINTRESOURCE (IDD_INPROG),
+  if (!CreateDialogParamW (lstate.hinst, MAKEINTRESOURCEW (IDD_INPROG),
                           hwnd_parent, progress_dlgproc, LPARAM (this)))
     return 0;
   ShowWindow (m_hwnd, SW_SHOW);
