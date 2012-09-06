@@ -165,8 +165,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,13,0
- PRODUCTVERSION 0,0,13,0
+ FILEVERSION 0,0,14,0
+ PRODUCTVERSION 0,0,14,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -184,13 +184,13 @@ BEGIN
             VALUE "Comments", "Common Archiver Project's UNRAR32.DLL"
             VALUE "CompanyName", "Free software"
             VALUE "FileDescription", "UNRAR32"
-            VALUE "FileVersion", "0.0.13.0"
+            VALUE "FileVersion", "0.0.14.0"
             VALUE "InternalName", "unrar32"
-            VALUE "LegalCopyright", "Copyright (C) 1998-2004 T. Kamei"
+            VALUE "LegalCopyright", "Copyright (C) 1998-2012 T. Kamei/Claybird/RuRuRu"
             VALUE "LegalTrademarks", "Common Archiver Project"
             VALUE "OriginalFilename", "unrar32.dll"
             VALUE "ProductName", "UNRAR32 Dynamic Link Library"
-            VALUE "ProductVersion", "0.0.13.0"
+            VALUE "ProductVersion", "0.0.14.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -400,13 +400,13 @@ BEGIN
             VALUE "Comments", "Common Archiver Project's UNRAR32.DLL"
             VALUE "CompanyName", "Free software"
             VALUE "FileDescription", "UNRAR32"
-            VALUE "FileVersion", "0.0.13.0"
+            VALUE "FileVersion", "0.0.14.0"
             VALUE "InternalName", "unrar32"
-            VALUE "LegalCopyright", "Copyright © 1998-2004 T. Kamei"
+            VALUE "LegalCopyright", "Copyright © 1998-2012 T. Kamei/Claybird/RuRuRu"
             VALUE "LegalTrademarks", "Common Archiver Project"
             VALUE "OriginalFilename", "unrar32.dll"
             VALUE "ProductName", "UNRAR32 Dynamic Link Library"
-            VALUE "ProductVersion", "0.0.13.0"
+            VALUE "ProductVersion", "0.0.14.0"
         END
     END
     BLOCK "VarFileInfo"
