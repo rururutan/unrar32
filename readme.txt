@@ -1,7 +1,7 @@
 ﻿
 はじめに
 
-    unrar32.dllをx64対応させた私家版です。
+    unrar32.dllをx64/ユニコード対応させた私家版です。
 
     動作確認には Windows7/64bit + あふw x64のみで行なっています。
 
@@ -12,13 +12,20 @@
 
 必須要件
 
-    動作させるには
+    unrar64jを動作させるには
 
-    64bit版Windows
-    VisualStudio 2010ランタイム
+    64bit版Windows Vista/7
+    Microsoft Visual C++ 2010 SP1 再頒布可能パッケージ (x64)
     unrar64.dll (http://www.rarlab.com/)
 
-    が必要です。
+
+    unrar32を動作させるには
+
+    WindowsXP SP3以上
+    Microsoft Visual C++ 2010 SP1 再頒布可能パッケージ (x86)
+    unrar.dll (http://www.rarlab.com/)
+
+    以上が必要です。
 
 
 ライセンス
@@ -32,10 +39,18 @@
 サポート
 
     本DLLに関し、オリジナル作者の亀井さんに問い合わせないようお願いします。
-    GitHubのIssuesに報告してください。
+    GitHubのIssues又はTwitterのRuRuRuTanに報告してください。
 
 
 変更履歴
+
+    2012/9/6 (by RuRuRu)
+      ・展開キャンセル時に即時終了する様に変更。
+      ・プログレスダイアログを親ウインドウ中央に表示するように修正。
+
+    2012/8/7 (by RuRuRu)
+      ・解凍ダイアログでユニコード文字が表示できていなかった。
+      ・パスワードダイアログをキャンセル時の挙動を改善。
 
     2012/8/5 (by RuRuRu)
       ・128文字以上のパスワードの書庫に対応。
