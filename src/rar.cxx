@@ -489,7 +489,7 @@ static int __cdecl
 extract_helper (void *, u_char *data, int nbytes)
 {
   if (!xtract_info)
-    return 1;
+    return -1;
 
   DWORD nwritten;
   if (!WriteFile (xtract_info->h, data, nbytes, &nwritten, 0)
@@ -506,7 +506,7 @@ extract_helper (void *, u_char *data, int nbytes)
     {
       xtract_info->canceled = true;
       xtract_info = 0;
-      return 0;
+      return -1;
     }
   if (lstate.has_callback)
     {
@@ -516,7 +516,7 @@ extract_helper (void *, u_char *data, int nbytes)
         {
           xtract_info->canceled = true;
           xtract_info = 0;
-          return 0;
+          return -1;
         }
     }
 
