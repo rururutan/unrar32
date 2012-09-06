@@ -34,16 +34,16 @@ center_window (HWND hwnd)
   GetWindowRect (hwnd, &dr);
   GetWindowRect (owner, &or);
 
-  LONG left = (or.left + (or.right - or.left) / 3
-               - (dr.right - dr.left) / 3);
-  LONG top = (or.top + (or.bottom - or.top) / 3
-              - (dr.bottom - dr.top) / 3);
+  LONG left = dr.left + (or.left + or.right - dr.left - dr.right) / 2;
+  LONG top  = dr.top  + (or.top + or.bottom - dr.top - dr.bottom) / 2;
 
-  RECT work;
-  SystemParametersInfo (SPI_GETWORKAREA, 0, &work, 0);
+  RECT wr;
+  SystemParametersInfo (SPI_GETWORKAREA, 0, &wr, 0);
 
-  left = min (max (left, work.left), work.right - (dr.right - dr.left));
-  top = min (max (top, work.top), work.bottom - (dr.bottom - dr.top));
+  if (left < wr.left) left = wr.left;
+  if (top  < wr.top)   top = wr.top;
+  if (left + dr.right  - dr.left > wr.right) left = wr.right  - (dr.right  - dr.left);
+  if (top  + dr.bottom - dr.top  > wr.bottom) top = wr.bottom - (dr.bottom - dr.top);
 
   SetWindowPos (hwnd, 0, left, top, 0, 0,
                 SWP_NOSIZE | SWP_NOZORDER | SWP_NOACTIVATE);
@@ -159,6 +159,7 @@ progress_dlg::progress_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lpara
       SetWindowLongPtr (hwnd, DWLP_USER, lparam);
       p = reinterpret_cast<progress_dlg *>(lparam);
       p->m_hwnd = hwnd;
+      center_window (p->m_hwnd);
     }
   else
     p = reinterpret_cast<progress_dlg *>(GetWindowLongPtr (hwnd, DWLP_USER));
