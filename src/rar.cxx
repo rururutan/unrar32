@@ -555,7 +555,7 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
             pwd=askpass_dialog (0);
           }
         }
-        if(pwd){
+        if(pwd && pwd[0] != 0){
           wcsncpy((wchar_t*)P1,pwd,P2);
           return 0;
         }else{
