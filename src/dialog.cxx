@@ -254,7 +254,8 @@ progress_dlg::update (const int64 &n) const
   return 1;
 }
 
-static wchar_t passwd[1024];
+#define MAX_PASS 1024
+static wchar_t passwd[MAX_PASS + 1];
 
 static INT_PTR CALLBACK
 askpass_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
@@ -269,7 +270,8 @@ askpass_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
       switch (LOWORD (wparam))
         {
         case IDOK:
-          GetDlgItemTextW (hwnd, IDC_PASSWD, passwd, sizeof passwd - 1);
+          GetDlgItemTextW (hwnd, IDC_PASSWD, passwd, MAX_PASS);
+          passwd[MAX_PATH] = 0;
           /* fall thru... */
         case IDCANCEL:
           EndDialog (hwnd, LOWORD (wparam));
@@ -309,7 +311,7 @@ changevol_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
             LoadString (lstate.hinst, IDS_FILTER, filter, sizeof filter);
             for (char *p = filter; (p = (char *)_mbschr ((u_char *)p, '|')); p++)
               *p = 0;
-            GetDlgItemText (hwnd, IDC_PATH, buf, sizeof buf);
+            GetDlgItemText (hwnd, IDC_PATH, buf, MAX_PATH);
             OPENFILENAME of;
             memset (&of, 0, sizeof of);
             of.lStructSize = sizeof of;
@@ -328,7 +330,7 @@ changevol_dlgproc (HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
         case IDOK:
           {
             wchar_t buf[MAX_PATH];
-            GetDlgItemTextW (hwnd, IDC_PATH, buf, sizeof buf);
+            GetDlgItemTextW (hwnd, IDC_PATH, buf, MAX_PATH);
             if (!*buf)
               return 1;
             wcscpy (vol_name, buf);
