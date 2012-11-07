@@ -5,27 +5,24 @@
 
     動作確認には Windows7/64bit + あふw x64のみで行なっています。
 
-    x64用のファイル名はunrar64j.dllです。(あふwでそのまま使える為)
-    'j'のついた背景にはx64になってunrar.dllがunrar64.dllと改名され、
-    unrar32はunrar64と安易に変更出来なくなった為です。
+    unrar.dllの64bit版がunrar64.dllで名前が被っていますので、
+    unarj32jに倣ってunrar64j.dllになっています。
 
 
 必須要件
 
-    unrar64jを動作させるには
+    unrar64jを動作させるには以下の条件を満たしている必要があります。
 
-    64bit版Windows Vista/7
-    Microsoft Visual C++ 2010 SP1 再頒布可能パッケージ (x64)
+    64bit版Windows Vista以上
     unrar64.dll (http://www.rarlab.com/)
 
 
-    unrar32を動作させるには
+    unrar32を動作させるには以下の条件を満たしている必要があります。
 
     WindowsXP SP3以上
-    Microsoft Visual C++ 2010 SP1 再頒布可能パッケージ (x86)
     unrar.dll (http://www.rarlab.com/)
 
-    以上が必要です。
+    
 
 
 ライセンス
@@ -43,6 +40,11 @@
 
 
 変更履歴
+
+    2012/11/7 (by RuRuRu)
+      ・パスワード入力時に何も入力しない場合はキャンセル扱いにした。(7-zip32準拠)
+      ・環境によってはパスワード入力に失敗する不具合を修正。
+      ・VS2010ランタイムを不要にした。
 
     2012/9/6 (by RuRuRu)
       ・展開キャンセル時に即時終了する様に変更。
