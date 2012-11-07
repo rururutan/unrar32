@@ -25,7 +25,7 @@
 #include "resource.h"
 #include "dialog.h"
 
-#define UNRAR32_VERSION 14
+#define UNRAR32_VERSION 15
 
 class in_progress
 {
