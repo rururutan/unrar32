@@ -14,33 +14,33 @@ unarj32jに倣ってunrar64j.dllになっています。
 
 unrar64jを動作させるには以下の条件を満たしている必要があります。
 
-64bit版Windows Vista以上
-[unrar64.dll](http://www.rarlab.com/)
+* 64bit版Windows Vista以上
+* [unrar64.dll](http://www.rarlab.com/)
 
 
 unrar32を動作させるには以下の条件を満たしている必要があります。
 
-WindowsXP SP3以上
-[unrar.dll](http://www.rarlab.com/)
+* WindowsXP SP3以上
+* [unrar.dll](http://www.rarlab.com/)
 
 ## 追加API関数
 
 従来の物と比較して以下の関数を追加しています。
 
-*UnrarSetUnicodeMode
-*UnrarGetArcFileSizeEx
-*UnrarGetArcOriginalSizeEx
-*UnrarGetArcCompressedSizeEx
-*UnrarGetOriginalSizeEx
-*UnrarGetCompressedSizeEx
+* UnrarSetUnicodeMode
+* UnrarGetArcFileSizeEx
+* UnrarGetArcOriginalSizeEx
+* UnrarGetArcCompressedSizeEx
+* UnrarGetOriginalSizeEx
+* UnrarGetCompressedSizeEx
 
 ##対応アプリケーション
 
 此方で確認できているUnicodeモード対応アプリケーションは以下の通りです。
 
-*[あふw](http://www.h5.dion.ne.jp/~akt/)
-*[SASF](http://homepage1.nifty.com/Ayakawa/)
-*[Paper Plane xUI](http://homepage1.nifty.com/toro/)
+* [あふw](http://www.h5.dion.ne.jp/~akt/)
+* [SASF](http://homepage1.nifty.com/Ayakawa/)
+* [Paper Plane xUI](http://homepage1.nifty.com/toro/)
 
 ## ライセンス
 
