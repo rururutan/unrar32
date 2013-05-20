@@ -41,6 +41,8 @@ unrar32を動作させるには以下の条件を満たしている必要があ�
 * [あふw](http://www.h5.dion.ne.jp/~akt/)
 * [SASF](http://homepage1.nifty.com/Ayakawa/)
 * [Paper Plane xUI](http://homepage1.nifty.com/toro/)
+* [reces](http://www16.atpages.jp/rayna/reces/index.html)
+* [LhaForge](http://claybird.sakura.ne.jp/garage/lhaforge/nosupport/index.html)
 
 ## ライセンス
 
@@ -55,6 +57,9 @@ unrar32を動作させるには以下の条件を満たしている必要があ�
 GitHubのIssues又はTwitterのRuRuRuTanに報告してください。
 
 ## 変更履歴
+
+    2013/05/20 (by RuRuRu)
+      ・デバッグ用のコードが残っていたので削除。
 
     2012/11/7 (by RuRuRu)
       ・パスワード入力時に何も入力しない場合はキャンセル扱いにした。(7-zip32準拠)
