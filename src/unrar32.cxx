@@ -674,7 +674,6 @@ DllMain (HINSTANCE hinst, DWORD reason, VOID *)
 BOOL WINAPI
 UnrarSetUnicodeMode(BOOL unicode)
 {
-  OutputDebugString( unicode ? "UnrarSetUnicodeMode on" :  "UnrarSetUnicodeMode off");
 #ifdef _UTF8_SUPPORT
   IN_API (0, 0);
   lstate.utf8_mode = unicode ? true : false;
