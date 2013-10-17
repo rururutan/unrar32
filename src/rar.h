@@ -48,7 +48,7 @@ public:
   UnRAR (HWND hwnd, ostrbuf &ostr)
        : m_hwnd (hwnd), m_ostr (ostr), m_passwd (0), m_path(0), m_opt(0),
          m_security_level(2)
-    {}
+    { m_apiver = get_dllversion(); }
   ~UnRAR ()
     {
       delete [] m_passwd;
@@ -65,6 +65,7 @@ private:
   const wchar_t *m_path;
   const wchar_t *m_passwd;
   wchar_t m_dest[FNAME_MAX32 + 1];
+  int m_apiver;
 
   HWND m_hwnd;
 
@@ -72,6 +73,7 @@ private:
   glob m_glob;
   EXTRACTINGINFOEX m_ex;
 
+  bool isdir(const rarHeaderDataEx &hde);
   int mkdirhier (const wchar_t *path);
   int check_timestamp (const wchar_t *path, const rarHeaderDataEx &hde);
   int parse_opt (int ac, char **av);

@@ -550,7 +550,7 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
         if(!prd)return -1;
         if(prd->can_ask_password){
           if(prd->pUserData){
-            pwd=((UnRAR*)prd->pUserData)->get_password();
+            pwd=(static_cast<UnRAR*>(prd->pUserData))->get_password();
           }else{
             pwd=askpass_dialog (0);
           }
@@ -811,8 +811,7 @@ UnRAR::extract1 ()
               if (e)
                 return process_err (e, dest,rd);
             }
-          //else if (rd.hd.FileAttr & FILE_ATTRIBUTE_DIRECTORY)
-          else if ((rd.hde.Flags & 0xE0) == 0xE0)  //Directory check modified:Not with rd.hd.FileAttr,but with rd.hd.Flags
+          else if (isdir(rd.hde))  //Directory check modified:Not with rd.hd.FileAttr,but with rd.hd.Flags
             {
               if (m_cmd == C_EXTRACT && !mkdirhier (dest))
                 return ERROR_DIRECTORY;
@@ -990,3 +989,11 @@ UnRAR::xmain (int ac, char **av)
   return 0;
 }
 
+bool UnRAR::isdir(const rarHeaderDataEx &hde)
+{
+  if (m_apiver < 6) {
+    return ((hde.Flags & 0xE0) == 0xE0);
+  } else {
+    return ((hde.Flags & 0x30) == 0x30);
+  }
+}

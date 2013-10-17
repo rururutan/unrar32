@@ -79,6 +79,7 @@ typedef int (__stdcall *RARCLOSEARCHIVE)(HANDLE);
 typedef int (__stdcall *RARREADHEADEREX)(HANDLE, RARHeaderDataEx *);
 typedef int (__stdcall *RARPROCESSFILEW)(HANDLE, int, wchar_t *, wchar_t *);
 typedef void (__stdcall *RARSETCALLBACK)(HANDLE,int (CALLBACK*)(UINT,LPARAM,LPARAM,LPARAM),LPARAM);
+typedef int (__stdcall *RARGETDLLVERSION)(void);
 
 #ifndef EXTERN
 #define EXTERN extern
@@ -89,6 +90,7 @@ EXTERN RARCLOSEARCHIVE rarCloseArchive;
 EXTERN RARREADHEADEREX rarReadHeaderEx;
 EXTERN RARPROCESSFILEW rarProcessFileW;
 EXTERN RARSETCALLBACK rarSetCallback;
+EXTERN RARGETDLLVERSION rarGetDllVersion;
 
 class rarData
 {
@@ -126,5 +128,6 @@ int calc_ratio (const int64 &comp_sz, const int64 &orig_sz);
 const char *method_string (int method);
 int os_type (int os);
 const char *attr_string (int attr);
+int get_dllversion ();
 
 #endif

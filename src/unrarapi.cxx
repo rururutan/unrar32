@@ -33,12 +33,21 @@ load_rarapi ()
       && (rarCloseArchive = RARCLOSEARCHIVE (GetProcAddress (h, "RARCloseArchive")))
       && (rarProcessFileW = RARPROCESSFILEW (GetProcAddress (h, "RARProcessFileW")))
       && (rarSetCallback = RARSETCALLBACK (GetProcAddress (h, "RARSetCallback")))
-      && (rarReadHeaderEx = RARREADHEADEREX (GetProcAddress (h, "RARReadHeaderEx"))))
+      && (rarReadHeaderEx = RARREADHEADEREX (GetProcAddress (h, "RARReadHeaderEx")))
+      && (rarGetDllVersion = RARGETDLLVERSION (GetProcAddress (h, "RARGetDllVersion"))))
     {
       return h;
     }
 
   FreeLibrary (h);
+  return 0;
+}
+
+int
+get_dllversion(void)
+{
+  if (rarGetDllVersion)
+    return rarGetDllVersion();
   return 0;
 }
 
