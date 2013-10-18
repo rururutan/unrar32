@@ -811,7 +811,7 @@ UnRAR::extract1 ()
               if (e)
                 return process_err (e, dest,rd);
             }
-          else if (isdir(rd.hde))  //Directory check modified:Not with rd.hd.FileAttr,but with rd.hd.Flags
+          else if (isdirent(rd.hde))  //Directory check modified:Not with rd.hd.FileAttr,but with rd.hd.Flags
             {
               if (m_cmd == C_EXTRACT && !mkdirhier (dest))
                 return ERROR_DIRECTORY;
@@ -989,11 +989,11 @@ UnRAR::xmain (int ac, char **av)
   return 0;
 }
 
-bool UnRAR::isdir(const rarHeaderDataEx &hde)
+bool UnRAR::isdirent(const rarHeaderDataEx &hde)
 {
   if (m_apiver < 6) {
     return ((hde.Flags & 0xE0) == 0xE0);
   } else {
-    return ((hde.Flags & 0x30) == 0x30);
+    return ((hde.Flags & 0x20) == 0x20);
   }
 }

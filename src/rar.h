@@ -73,7 +73,7 @@ private:
   glob m_glob;
   EXTRACTINGINFOEX m_ex;
 
-  bool isdir(const rarHeaderDataEx &hde);
+  bool isdirent(const rarHeaderDataEx &hde);
   int mkdirhier (const wchar_t *path);
   int check_timestamp (const wchar_t *path, const rarHeaderDataEx &hde);
   int parse_opt (int ac, char **av);
