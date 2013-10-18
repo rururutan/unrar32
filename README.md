@@ -1,14 +1,16 @@
 
-# Unrar64j
+# Unrar32 / Unrar64j
 
 ## 初めに
 
-unrar32.dllをx64/ユニコード対応させた私家版です。
+[unrar32.dll](http://www.madobe.net/archiver/lib/unrar32.html)をx64/ユニコード対応させた私家版です。
 
-動作確認には Windows7/64bit + あふw x64のみで行なっています。
+動作確認は基本的に Windows7/64bit + あふw x64で行なっています。
 
 unrar.dllの64bit版がunrar64.dllで名前が被っていますので、
 unarj32jに倣ってunrar64j.dllになっています。
+
+バイナリーは[ここ](http://www.vesta.dti.ne.jp/~tsato/software.html#unrar64j)に置いてあります。
 
 ## 動作環境
 
@@ -58,10 +60,16 @@ GitHubのIssues又はTwitterのRuRuRuTanに報告してください。
 
 ## 変更履歴
 
+    2013/10/18 (by RuRuRu)
+      ・version 0.16
+      ・unrar.dllのAPIバージョン6(RAR5対応版)で互換性の無い変更が行われたので対応。
+      ・これまでのバージョンでは展開に失敗する場合があります。
+
     2013/05/20 (by RuRuRu)
       ・デバッグ用のコードが残っていたので削除。
 
     2012/11/7 (by RuRuRu)
+      ・version 0.15
       ・パスワード入力時に何も入力しない場合はキャンセル扱いにした。(7-zip32準拠)
       ・環境によってはパスワード入力に失敗する不具合を修正。
       ・VS2010ランタイムを不要にした。
@@ -71,6 +79,7 @@ GitHubのIssues又はTwitterのRuRuRuTanに報告してください。
       ・プログレスダイアログを親ウインドウ中央に表示するように修正。
 
     2012/8/7 (by RuRuRu)
+      ・version 0.14
       ・解凍ダイアログでユニコード文字が表示できていなかった。
       ・パスワードダイアログをキャンセル時の挙動を改善。
 
