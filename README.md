@@ -38,13 +38,14 @@ unrar32を動作させるには以下の条件を満たしている必要があ�
 
 ##対応アプリケーション
 
-此方で確認できているUnicodeモード対応アプリケーションは以下の通りです。
+此方で確認できているUnicodeモード/unrar64j対応アプリケーションは以下の通りです。
 
 * [あふw](http://www.h5.dion.ne.jp/~akt/)
 * [SASF](http://homepage1.nifty.com/Ayakawa/)
 * [Paper Plane xUI](http://homepage1.nifty.com/toro/)
 * [reces](http://www16.atpages.jp/rayna/reces/index.html)
 * [LhaForge](http://claybird.sakura.ne.jp/garage/lhaforge/nosupport/index.html)
+* [だいなファイラー](http://hp.vector.co.jp/authors/VA004117/dyna.html)
 
 ## ライセンス
 
