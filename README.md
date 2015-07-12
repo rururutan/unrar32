@@ -1,16 +1,17 @@
 
-# Unrar32 / Unrar64j
+# Unrar64j
 
 ## 初めに
 
 [unrar32.dll](http://www.madobe.net/archiver/lib/unrar32.html)をx64/ユニコード対応させた私家版です。
+32bit版は[本家](http://www.csdinc.co.jp/archiver/lib/unrar32.html)に取り込まれました。
 
-動作確認は基本的に Windows7/64bit + あふw x64で行なっています。
+動作確認は基本的に Windows7/64bit + [あふw](http://www.h5.dion.ne.jp/~akt/)x64版で行なっています。
 
 unrar.dllの64bit版がunrar64.dllで名前が被っていますので、
-unarj32jに倣ってunrar64j.dllになっています。
+[unarj32j](http://www.csdinc.co.jp/archiver/lib/unarj32.html)に倣ってunrar64j.dllになっています。
 
-バイナリーは[ここ](http://www.vesta.dti.ne.jp/~tsato/software.html#unrar64j)に置いてあります。
+バイナリーは[ここ](https://github.com/rururutan/unrar32/releases)に置いてあります。
 
 ## 動作環境
 
@@ -18,12 +19,6 @@ unrar64jを動作させるには以下の条件を満たしている必要があ
 
 * 64bit版Windows Vista以上
 * [unrar64.dll](http://www.rarlab.com/)
-
-
-unrar32を動作させるには以下の条件を満たしている必要があります。
-
-* WindowsXP SP3以上
-* [unrar.dll](http://www.rarlab.com/)
 
 ## 追加API関数
 
@@ -61,41 +56,25 @@ GitHubのIssues又はTwitterのRuRuRuTanに報告してください。
 
 ## 変更履歴
 
-    2013/10/18 (by RuRuRu)
-      ・version 0.16
+    version 0.17 2015/6/8 (by Claybird)
+      ・RuRuRu氏によるversion 0.16の変更点を取り込み
+      ・開発環境をVC2005に戻した
+      ・パスワード間違いによるCRCエラーのメッセージを変更した
+      ・CHECKARCHIVE_NOT_ASK_PASSWORDを指定したUnrarCheckArchive()でヘッダ暗号化された
+        ファイルが破損扱いになっていた不具合を修正
+
+    version 0.16 2013/10/18 (by RuRuRu) [変更点抜粋 by Claybird]
       ・unrar.dllのAPIバージョン6(RAR5対応版)で互換性の無い変更が行われたので対応。
-      ・これまでのバージョンでは展開に失敗する場合があります。
-
-    2013/05/20 (by RuRuRu)
-      ・デバッグ用のコードが残っていたので削除。
-
-    2012/11/7 (by RuRuRu)
-      ・version 0.15
+        これまでのバージョンでは展開に失敗する場合があります。
       ・パスワード入力時に何も入力しない場合はキャンセル扱いにした。(7-zip32準拠)
       ・環境によってはパスワード入力に失敗する不具合を修正。
-      ・VS2010ランタイムを不要にした。
-
-    2012/9/6 (by RuRuRu)
       ・展開キャンセル時に即時終了する様に変更。
       ・プログレスダイアログを親ウインドウ中央に表示するように修正。
-
-    2012/8/7 (by RuRuRu)
-      ・version 0.14
-      ・解凍ダイアログでユニコード文字が表示できていなかった。
-      ・パスワードダイアログをキャンセル時の挙動を改善。
-
-    2012/8/5 (by RuRuRu)
       ・128文字以上のパスワードの書庫に対応。
-      ・ファイル検索のバグを修正(12/8/1verでデグレード)
-
-    2012/8/1 (by RuRuRu)
       ・UnrarSetUnicodeModeを実装。
       ・内部的にUTF-16で動作する様に変更。
       ・ユニコード文字を含むパスワードの書庫が開けない不具合を修正。
-
-    2012/7/27 (by RuRuRu)
-      ・x64でビルド可能な様に修正。
-      ・x64でのファイル名はunrar64j.dll
+      ・x64でビルド可能な様に修正(unrar64j.dll)
       ・以下の64ビット整数値の取得API関数を追加。
         UnrarGetArcFileSizeEx
         UnrarGetArcOriginalSizeEx
