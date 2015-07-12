@@ -102,9 +102,10 @@ public:
   LPVOID pUserData;
   bool can_ask_password;
   bool is_missing_password;
+  bool is_password_required;
 
   rarData ()
-       : h (0),pUserData(NULL),can_ask_password(true),is_missing_password(false)
+       : h (0),pUserData(NULL),can_ask_password(true),is_missing_password(false),is_password_required(false)
     {}
   ~rarData ()
     {close ();}

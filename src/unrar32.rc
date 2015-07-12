@@ -13,11 +13,13 @@
 #undef APSTUDIO_READONLY_SYMBOLS
 
 /////////////////////////////////////////////////////////////////////////////
-// 日本語 (日本) resources
+// 日本語 resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_JPN)
+#ifdef _WIN32
 LANGUAGE LANG_JAPANESE, SUBLANG_DEFAULT
 #pragma code_page(932)
+#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -96,7 +98,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_REPLACE, DIALOG
     BEGIN
@@ -165,8 +167,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,15,0
- PRODUCTVERSION 0,0,15,0
+ FILEVERSION 0,0,17,0
+ PRODUCTVERSION 0,0,17,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -184,13 +186,13 @@ BEGIN
             VALUE "Comments", "Common Archiver Project's UNRAR32.DLL"
             VALUE "CompanyName", "Free software"
             VALUE "FileDescription", "UNRAR32"
-            VALUE "FileVersion", "0.0.16.0"
+            VALUE "FileVersion", "0.0.17.0"
             VALUE "InternalName", "unrar32"
             VALUE "LegalCopyright", "Copyright (C) 1998-2013 T. Kamei/Claybird/RuRuRu"
             VALUE "LegalTrademarks", "Common Archiver Project"
             VALUE "OriginalFilename", "unrar32.dll"
             VALUE "ProductName", "UNRAR32 Dynamic Link Library"
-            VALUE "ProductVersion", "0.0.16.0"
+            VALUE "ProductVersion", "0.0.17.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -205,7 +207,7 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_NOT_ENOUGH_MEMORY   "メモリが不足しています"
     IDS_ARCHIVE_HEADER_BROKEN "アーカイブヘッダが壊れています: %s\n"
@@ -224,12 +226,13 @@ BEGIN
     IDS_NO_ARCHIVE_FILE     "アーカイブファイルが指定されていません\n"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_UNRECOGNIZED_OPTION "認識できないオプションです: `-%c'\n"
     IDS_OPTION_REQ_ARGS     "`-%c'には引数が必要です\n"
     IDS_FILE_NAME_TOO_LONG  "ファイル名が長すぎます: %s\n"
     IDS_MISSING_PASSWORD    "パスワードが必要です: %s\n"
+    IDS_BAD_PASSWORD        "パスワードが間違っています: %s\n"
     IDS_CANCELED            "Canceled\n"
     IDS_CANNOT_SET_EOF      "EOFが設定できません\n"
     IDS_CREATING            "Creating %s\n"
@@ -243,14 +246,15 @@ BEGIN
     IDS_EXTRACTING          "Extracting %s\n"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_UNRAR_NOT_LOADED    "UnRAR.DLLがロードできません"
     IDS_FILTER              "すべてのファイル|*.*|"
     IDS_INVALID_SECURITY_LEVEL "不正なセキュリティレベルです: %c\n"
+    IDS_CRC_ERROR_WRONG_PASS "CRCエラー[パスワードが違う?]: %s\n"
 END
 
-#endif    // 日本語 (日本) resources
+#endif    // 日本語 resources
 /////////////////////////////////////////////////////////////////////////////
 
 
@@ -258,15 +262,17 @@ END
 // 英語 (米国) resources
 
 #if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+#ifdef _WIN32
 LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
 #pragma code_page(1252)
+#endif //_WIN32
 
 /////////////////////////////////////////////////////////////////////////////
 //
 // Dialog
 //
 
-IDD_ASKPASSWD DIALOG 0, 0, 199, 74
+IDD_ASKPASSWD DIALOG  0, 0, 199, 74
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Encrypted archive"
 FONT 8, "MS Sans Serif"
@@ -277,7 +283,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,105,54,52,13
 END
 
-IDD_CHANGEVOL DIALOG 0, 0, 223, 61
+IDD_CHANGEVOL DIALOG  0, 0, 223, 61
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Change volume"
 FONT 8, "MS Sans Serif"
@@ -305,7 +311,7 @@ BEGIN
     PUSHBUTTON      "Cancel",IDCANCEL,66,81,50,14
 END
 
-IDD_REPLACE DIALOG 0, 0, 239, 155
+IDD_REPLACE DIALOG  0, 0, 239, 155
 STYLE DS_SETFONT | DS_MODALFRAME | WS_POPUP | WS_CAPTION | WS_SYSMENU
 CAPTION "Overwrite existing file?"
 FONT 8, "MS Sans Serif"
@@ -338,7 +344,7 @@ END
 //
 
 #ifdef APSTUDIO_INVOKED
-GUIDELINES DESIGNINFO
+GUIDELINES DESIGNINFO 
 BEGIN
     IDD_ASKPASSWD, DIALOG
     BEGIN
@@ -381,8 +387,8 @@ END
 //
 
 VS_VERSION_INFO VERSIONINFO
- FILEVERSION 0,0,13,0
- PRODUCTVERSION 0,0,13,0
+ FILEVERSION 0,0,17,0
+ PRODUCTVERSION 0,0,17,0
  FILEFLAGSMASK 0x3fL
 #ifdef _DEBUG
  FILEFLAGS 0x1L
@@ -400,13 +406,13 @@ BEGIN
             VALUE "Comments", "Common Archiver Project's UNRAR32.DLL"
             VALUE "CompanyName", "Free software"
             VALUE "FileDescription", "UNRAR32"
-            VALUE "FileVersion", "0.0.16.0"
+            VALUE "FileVersion", "0.0.17.0"
             VALUE "InternalName", "unrar32"
             VALUE "LegalCopyright", "Copyright ｩ 1998-2013 T. Kamei/Claybird/RuRuRu"
             VALUE "LegalTrademarks", "Common Archiver Project"
             VALUE "OriginalFilename", "unrar32.dll"
             VALUE "ProductName", "UNRAR32 Dynamic Link Library"
-            VALUE "ProductVersion", "0.0.16.0"
+            VALUE "ProductVersion", "0.0.17.0"
         END
     END
     BLOCK "VarFileInfo"
@@ -421,7 +427,7 @@ END
 // String Table
 //
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_NOT_ENOUGH_MEMORY   "Not enough memory\n"
     IDS_ARCHIVE_HEADER_BROKEN "Archive header broken: %s\n"
@@ -440,12 +446,13 @@ BEGIN
     IDS_NO_ARCHIVE_FILE     "No archive files specified\n"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_UNRECOGNIZED_OPTION "Unrecognized option: `-%c'\n"
     IDS_OPTION_REQ_ARGS     "`-%c' requires an argument\n"
     IDS_FILE_NAME_TOO_LONG  "File name too long: %s\n"
     IDS_MISSING_PASSWORD    "Password for encrypted file is not specified: %s\n"
+    IDS_BAD_PASSWORD        "Wrong password: %s\n"
     IDS_CANCELED            "Canceled\n"
     IDS_CANNOT_SET_EOF      "Cannot set end-of-file\n"
     IDS_CREATING            "Creating %s\n"
@@ -459,11 +466,12 @@ BEGIN
     IDS_EXTRACTING          "Extracting %s\n"
 END
 
-STRINGTABLE
+STRINGTABLE 
 BEGIN
     IDS_UNRAR_NOT_LOADED    "Unable to load UnRAR.DLL"
     IDS_FILTER              "All Files|*.*|"
     IDS_INVALID_SECURITY_LEVEL "Invalid security level: %c\n"
+    IDS_CRC_ERROR_WRONG_PASS "File CRC error [Wrong password?]: %s\n"
 END
 
 #endif    // 英語 (米国) resources

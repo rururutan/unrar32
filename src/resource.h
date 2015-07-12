@@ -1,5 +1,5 @@
 //{{NO_DEPENDENCIES}}
-// Microsoft Developer Studio generated include file.
+// Microsoft Visual C++ generated include file.
 // Used by unrar32.rc
 //
 #define IDCANCEL2                       3
@@ -42,6 +42,7 @@
 #define IDS_OPTION_REQ_ARGS             10017
 #define IDS_FILE_NAME_TOO_LONG          10018
 #define IDS_MISSING_PASSWORD            10019
+#define IDS_BAD_PASSWORD                10020
 #define IDS_CANCELED                    10021
 #define IDS_CANNOT_SET_EOF              10022
 #define IDS_CREATING                    10023
@@ -56,6 +57,7 @@
 #define IDS_UNRAR_NOT_LOADED            10032
 #define IDS_FILTER                      10033
 #define IDS_INVALID_SECURITY_LEVEL      10034
+#define IDS_CRC_ERROR_WRONG_PASS        10035
 
 // Next default values for new objects
 // 

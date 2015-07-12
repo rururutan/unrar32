@@ -25,7 +25,7 @@
 #include "resource.h"
 #include "dialog.h"
 
-#define UNRAR32_VERSION 16
+#define UNRAR32_VERSION 17
 
 class in_progress
 {
@@ -165,6 +165,10 @@ UnrarCheckArchive (const char *path, int mode)
         break;
       }
   if (e && e != ERAR_END_ARCHIVE){
+    if(ERAR_BAD_DATA==e && rd.is_password_required){
+      return 0;
+    }
+    if(ERAR_MISSING_PASSWORD==e)return ERROR_PASSWORD_FILE;	//password required, but unavailable
     if(ERAR_UNKNOWN==e && rd.is_missing_password)return ERROR_PASSWORD_FILE;
     else return 0;
   }

@@ -56,8 +56,16 @@ UnRAR::process_err (int e,const wchar_t *path, const rarData &rd) const
 {
   switch (e)
     {
+    case ERAR_BAD_PASSWORD:
+      format (IDS_BAD_PASSWORD, path);
+      return ERROR_PASSWORD_FILE;
+
     case ERAR_BAD_DATA:
-      format (IDS_CRC_ERROR, path);
+      if(rd.is_password_required){
+        format (IDS_CRC_ERROR_WRONG_PASS, path);
+      }else{
+        format (IDS_CRC_ERROR, path);
+      }
       return ERROR_FILE_CRC;
 
     case ERAR_BAD_ARCHIVE:
@@ -106,10 +114,21 @@ UnRAR::header_err (int e,const rarData &rd) const
   switch (e)
     {
     case ERAR_END_ARCHIVE:
-      return 0;
+      if(rd.is_missing_password){
+        format (IDS_MISSING_PASSWORD, m_path);
+        return ERROR_PASSWORD_FILE;
+      }else return 0;
+
+    case ERAR_BAD_PASSWORD:
+      format (IDS_BAD_PASSWORD, m_path);
+      return ERROR_PASSWORD_FILE;
 
     case ERAR_BAD_DATA:
-      format (IDS_FILE_HEADER_BROKEN, m_path);
+      if(rd.is_password_required){
+        format (IDS_CRC_ERROR_WRONG_PASS, m_path);
+      }else{
+        format (IDS_CRC_ERROR, m_path);
+      }
       return ERROR_HEADER_BROKEN;
 
     case ERAR_UNKNOWN:	//FALLTHROUGH
@@ -548,6 +567,7 @@ int CALLBACK rar_event_handler(UINT msg,LPARAM UserData,LPARAM P1,LPARAM P2)
         const wchar_t* pwd=NULL;
         rarData* prd=reinterpret_cast<rarData*>(UserData);
         if(!prd)return -1;
+        prd->is_password_required=true;
         if(prd->can_ask_password){
           if(prd->pUserData){
             pwd=(static_cast<UnRAR*>(prd->pUserData))->get_password();
