@@ -41,6 +41,8 @@ unrar64jを動作させるには以下の条件を満たしている必要があ
 * [reces](http://www16.atpages.jp/rayna/reces/index.html)
 * [LhaForge](http://claybird.sakura.ne.jp/garage/lhaforge/nosupport/index.html)
 * [だいなファイラー](http://hp.vector.co.jp/authors/VA004117/dyna.html)
+* [NyanFi](http://nekomimi.la.coocan.jp/freesoft/nyanfi.htm)
+* [PictureFan](https://iooiau.net/picturefan.html)
 
 ## ライセンス
 
