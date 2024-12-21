@@ -23,9 +23,9 @@ HINSTANCE
 load_rarapi ()
 {
 #ifdef _WIN64
-  HINSTANCE h = LoadLibrary ("unrar64.dll");
+  HINSTANCE h = LoadLibraryEx ("unrar64.dll", NULL, LOAD_LIBRARY_SEARCH_DEFAULT_DIRS);
 #else
-  HINSTANCE h = LoadLibrary ("unrar.dll");
+  HINSTANCE h = LoadLibraryEx ("unrar.dll", NULL, LOAD_LIBRARY_SEARCH_DEFAULT_DIRS));
 #endif
   if (!h)
     return 0;
